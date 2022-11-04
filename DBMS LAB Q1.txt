@@ -1,0 +1,1053 @@
+
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> SELECT CONCAT ('VIGNAN','LARA') FROM DUAL;
+
+CONCAT('VI
+----------
+VIGNANLARA
+
+SQL> select abs(11.2) from dual;
+
+ ABS(11.2)
+----------
+      11.2
+
+SQL> select abs(-11.2) from dual;
+
+ABS(-11.2)
+----------
+      11.2
+
+SQL> select ceil(11.2) from table
+  2  ;
+
+*
+ERROR at line 2:
+ORA-00906: missing left parenthesis
+
+
+SQL> select ceil(11.2) from table;
+select ceil(11.2) from table
+                           *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL> select ceil(11.2) from dual;
+
+CEIL(11.2)
+----------
+        12
+
+SQL> select floor(11.2) from dual;
+
+FLOOR(11.2)
+-----------
+         11
+
+SQL> select floor(11.99) from dual;
+
+FLOOR(11.99)
+------------
+          11
+
+SQL> select abs(-11.2) from dual;
+
+ABS(-11.2)
+----------
+      11.2
+
+SQL> select abs(-1) from dual;
+
+   ABS(-1)
+----------
+         1
+
+SQL> select mod(22,2) from dual;
+
+ MOD(22,2)
+----------
+         0
+
+SQL> select mod(22,21) from dual;
+
+MOD(22,21)
+----------
+         1
+
+SQL> select mod(22,121) from dual;
+
+MOD(22,121)
+-----------
+         22
+
+SQL> select mod(22,-121) from dual;
+
+MOD(22,-121)
+------------
+          22
+
+SQL> select mod(22,-11) from dual;
+
+MOD(22,-11)
+-----------
+          0
+
+SQL> select mod(-22,-11) from dual;
+
+MOD(-22,-11)
+------------
+           0
+
+SQL> select mod(-22,-16) from dual;
+
+MOD(-22,-16)
+------------
+          -6
+
+SQL> select power(2,3) from dual;
+
+POWER(2,3)
+----------
+         8
+
+SQL> select power(-2,-3) from dual;
+
+POWER(-2,-3)
+------------
+       -.125
+
+SQL> select power(-2,3) from dual;
+
+POWER(-2,3)
+-----------
+         -8
+
+SQL> select round(11.2341,-2) from dual;
+
+ROUND(11.2341,-2)
+-----------------
+                0
+
+SQL> select round(111.2341,-2) from dual;
+
+ROUND(111.2341,-2)
+------------------
+               100
+
+SQL> select round(111456.2341,-2) from dual;
+
+ROUND(111456.2341,-2)
+---------------------
+               111500
+
+SQL> select round(111456.2341,2) from dual;
+
+ROUND(111456.2341,2)
+--------------------
+           111456.23
+
+SQL> select truncate(111456.2341,2) from dual;
+select truncate(111456.2341,2) from dual
+       *
+ERROR at line 1:
+ORA-00904: "TRUNCATE": invalid identifier
+
+
+SQL> select TRUNCATE(111456.2341,2) from dual;
+select TRUNCATE(111456.2341,2) from dual
+       *
+ERROR at line 1:
+ORA-00904: "TRUNCATE": invalid identifier
+
+
+SQL> select TRUNC(111456.2341,2) from dual;
+
+TRUNC(111456.2341,2)
+--------------------
+           111456.23
+
+SQL> select TRUNC(111456.2341,-1) from dual;
+
+TRUNC(111456.2341,-1)
+---------------------
+               111450
+
+SQL> select TRUNC(111456.2341,4) from dual;
+
+TRUNC(111456.2341,4)
+--------------------
+          111456.234
+
+SQL> select TRUNC(111456.2341,3) from dual;
+
+TRUNC(111456.2341,3)
+--------------------
+          111456.234
+
+SQL> select TRUNC(111456.2341,2) from dual;
+
+TRUNC(111456.2341,2)
+--------------------
+           111456.23
+
+SQL> select round(111456.2341,2) from dual;
+
+ROUND(111456.2341,2)
+--------------------
+           111456.23
+
+SQL> select round(111456.2341,-2) from dual;
+
+ROUND(111456.2341,-2)
+---------------------
+               111500
+
+SQL> select round(111456.2341,1) from dual;
+
+ROUND(111456.2341,1)
+--------------------
+            111456.2
+
+SQL> select round(111456.2341) from dual;
+
+ROUND(111456.2341)
+------------------
+            111456
+
+SQL> SELECT SQRT(4) FROM DUAL;
+
+   SQRT(4)
+----------
+         2
+
+SQL> SELECT SQRT(-4) FROM DUAL;
+SELECT SQRT(-4) FROM DUAL
+            *
+ERROR at line 1:
+ORA-01428: argument '-4' is out of range
+
+
+SQL> SELECT SIGN(-4) FROM DUAL;
+
+  SIGN(-4)
+----------
+        -1
+
+SQL> SELECT SIGN(4) FROM DUAL;
+
+   SIGN(4)
+----------
+         1
+
+SQL> SELECT SIGN(0) FROM DUAL;
+
+   SIGN(0)
+----------
+         0
+
+SQL> SELECT SIGN(0.3) FROM DUAL;
+
+ SIGN(0.3)
+----------
+         1
+
+SQL> SELECT SIGN(-0.3) FROM DUAL;
+
+SIGN(-0.3)
+----------
+        -1
+
+SQL> SELECT SIGN(-0.0) FROM DUAL;
+
+SIGN(-0.0)
+----------
+         0
+
+SQL> SELECT SIGN(0.0) FROM DUAL;
+
+ SIGN(0.0)
+----------
+         0
+
+SQL> SELECT ACOS(23) FROM DUAL;
+SELECT ACOS(23) FROM DUAL
+            *
+ERROR at line 1:
+ORA-01428: argument '23' is out of range
+
+
+SQL> SELECT ACOS(2) FROM DUAL;
+SELECT ACOS(2) FROM DUAL
+            *
+ERROR at line 1:
+ORA-01428: argument '2' is out of range
+
+
+SQL> SELECT ACOS(1) FROM DUAL;
+
+   ACOS(1)
+----------
+         0
+
+SQL> SELECT ACOS(0.98) FROM DUAL;
+
+ACOS(0.98)
+----------
+.200334842
+
+SQL> SELECT ACOS(-0.98) FROM DUAL;
+
+ACOS(-0.98)
+-----------
+ 2.94125781
+
+SQL> SELECT SINH(3) FROM DUAL;
+
+   SINH(3)
+----------
+10.0178749
+
+SQL> SELECT SINH(44) FROM DUAL;
+
+  SINH(44)
+----------
+6.4258E+18
+
+SQL> SELECT EXP(23) FROM DUAL;
+
+   EXP(23)
+----------
+9744803446
+
+SQL> SELECT EXP(2.71828) FROM DUAL;
+
+EXP(2.71828)
+------------
+  15.1542345
+
+SQL> SELECT EXP(1/2.71828) FROM DUAL;
+
+EXP(1/2.71828)
+--------------
+    1.44466822
+
+SQL> SELECT EXP(-2.71828) FROM DUAL;
+
+EXP(-2.71828)
+-------------
+   .065988157
+
+SQL> SELECT EXP(1/EXP) FROM DUAL;
+SELECT EXP(1/EXP) FROM DUAL
+             *
+ERROR at line 1:
+ORA-00904: "EXP": invalid identifier
+
+
+SQL> SELECT EXP(1/EXP(2.3)) FROM DUAL;
+
+EXP(1/EXP(2.3))
+---------------
+     1.10545702
+
+SQL> SELECT EXP(1/EXP(2.2)) FROM DUAL;
+
+EXP(1/EXP(2.2))
+---------------
+     1.11717498
+
+SQL> SELECT EXP(1/EXP(2.7)) FROM DUAL;
+
+EXP(1/EXP(2.7))
+---------------
+     1.06951525
+
+SQL> SELECT EXP(1/EXP(2.71828)) FROM DUAL;
+
+EXP(1/EXP(2.71828))
+-------------------
+         1.06821407
+
+SQL> SELECT LN(2) DROM TABLE
+  2
+SQL> SELECT LN(2) FROM DUAL;
+
+     LN(2)
+----------
+.693147181
+
+SQL> SELECT LN(5) FROM DUAL;
+
+     LN(5)
+----------
+1.60943791
+
+SQL> SELECT LN(-5) FROM DUAL;
+SELECT LN(-5) FROM DUAL
+          *
+ERROR at line 1:
+ORA-01428: argument '-5' is out of range
+
+
+SQL> SELECT LN(0) FROM DUAL;
+SELECT LN(0) FROM DUAL
+          *
+ERROR at line 1:
+ORA-01428: argument '0' is out of range
+
+
+SQL> SELECT LN(1) FROM DUAL;
+
+     LN(1)
+----------
+         0
+
+SQL> SELECT LOG(90,90) FROM DUAL;
+
+LOG(90,90)
+----------
+         1
+
+SQL> SELECT ADD_MONTHS(23,5) FROM DUAL;
+SELECT ADD_MONTHS(23,5) FROM DUAL
+                  *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER
+
+
+SQL> SELECT ADD_MONTHS('23-SEP-2022',5) FROM DUAL;
+
+ADD_MONTH
+---------
+23-FEB-23
+
+SQL> SELECT SYSDATE FROM DUAL;
+
+SYSDATE
+---------
+28-OCT-22
+
+SQL> SELECT MONTHS_BETWEEN('12-JAN-2003',SYSDATE);
+SELECT MONTHS_BETWEEN('12-JAN-2003',SYSDATE)
+                                           *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT MONTHS_BETWEEN('12-JAN-2003',SYSDATE) FROM DUAL;
+
+MONTHS_BETWEEN('12-JAN-2003',SYSDATE)
+-------------------------------------
+                           -237.53005
+
+SQL> SELECT MONTHS_BETWEEN('12-JAN-2003','12-JAN-2002') FROM DUAL;
+
+MONTHS_BETWEEN('12-JAN-2003','12-JAN-2002')
+-------------------------------------------
+                                         12
+
+SQL> SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+LAST_DAY(
+---------
+31-OCT-22
+
+SQL> SELECT LAST_DAY(SYSDATE) AS LASTDATEOFMONTH FROM DUAL;
+
+LASTDATEO
+---------
+31-OCT-22
+
+SQL> SELECT LAST_DAY(SYSDATE) AS LASTDATEOFMONTH FROM DUAL;
+
+LASTDATEO
+---------
+31-OCT-22
+
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> SELECT NEXTDAY(SYSDATE) FROM DUAL;
+SELECT NEXTDAY(SYSDATE) FROM DUAL
+       *
+ERROR at line 1:
+ORA-00904: "NEXTDAY": invalid identifier
+
+
+SQL> SELECT NEXT_DAY(SYSDATE) FROM DUAL;
+SELECT NEXT_DAY(SYSDATE) FROM DUAL
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> SELECT NEXT_DAY(SYSDATE,'MON') FROM DUAL;
+
+NEXT_DAY(
+---------
+31-OCT-22
+
+SQL> SELECT NEXT_DAY(SYSDATE,'TUE') FROM DUAL;
+
+NEXT_DAY(
+---------
+01-NOV-22
+
+SQL> SELECT NEXT_DAY(SYSDATE,'SAT') FROM DUAL;
+
+NEXT_DAY(
+---------
+29-OCT-22
+
+SQL> SELECT ROUND(SYSDATE) FROM DUAL;
+
+ROUND(SYS
+---------
+28-OCT-22
+
+SQL> SELECT ROUND(SYSDATE,'DD MONTH YYYY HH24:MI:SS') FROM DUAL;
+SELECT ROUND(SYSDATE,'DD MONTH YYYY HH24:MI:SS') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT ROUND(SYSDATE,'DD MONTH YYYY HH24') FROM DUAL;
+SELECT ROUND(SYSDATE,'DD MONTH YYYY HH24') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT ROUND(SYSDATE,'DD MONTH YYYY') FROM DUAL;
+SELECT ROUND(SYSDATE,'DD MONTH YYYY') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT ROUND(SYSDATE,'DD MON YYYY') FROM DUAL;
+SELECT ROUND(SYSDATE,'DD MON YYYY') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT ROUND(SYSDATE,'DD-MON-YYYY') FROM DUAL;
+SELECT ROUND(SYSDATE,'DD-MON-YYYY') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT TRUNC('12-SEP-2021') FROM DUAL;
+SELECT TRUNC('12-SEP-2021') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('12') FROM DUAL;
+
+TRUNC('12')
+-----------
+         12
+
+SQL> SELECT TRUNC('12-2021') FROM DUAL;
+SELECT TRUNC('12-2021') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('12-SEP-2021') FROM DUAL;
+SELECT TRUNC('12-SEP-2021') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('12-SEP-2022') FROM DUAL;
+SELECT TRUNC('12-SEP-2022') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('SEP-2022') FROM DUAL;
+SELECT TRUNC('SEP-2022') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('12-SEP','DD MON') FROM DUAL;
+SELECT TRUNC('12-SEP','DD MON') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC('12-SEP','DD-MON') FROM DUAL;
+SELECT TRUNC('12-SEP','DD-MON') FROM DUAL
+             *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP'),'DD-MON') FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP'),'DD-MON') FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01840: input value not long enough for date format
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP')) FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP')) FROM DUAL
+                     *
+ERROR at line 1:
+ORA-01840: input value not long enough for date format
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022')) FROM DUAL;
+
+TRUNC(TO_
+---------
+12-SEP-22
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY HH-MI-SS') FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY HH-MI-SS') FROM DUAL
+                                    *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY-HH-MI-SS') FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY-HH-MI-SS') FROM DUAL
+                                    *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY') FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD-MM-YYYY') FROM DUAL
+                                    *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD') FROM DUAL;
+
+TRUNC(TO_
+---------
+12-SEP-22
+
+SQL> SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD MM') FROM DUAL;
+SELECT TRUNC(TO_DATE('12-SEP-2022'),'DD MM') FROM DUAL
+                                    *
+ERROR at line 1:
+ORA-01898: too many precision specifiers
+
+
+SQL> SELECT TO_CHAR(45) FROM DUAL;
+
+TO
+--
+45
+
+SQL> SELECT TO_CHAR(23-SEP-2022) FROM DUAL;
+SELECT TO_CHAR(23-SEP-2022) FROM DUAL
+                  *
+ERROR at line 1:
+ORA-00904: "SEP": invalid identifier
+
+
+SQL> SELECT TO_CHAR(SYSDATE,'DAY,MONTH-YYYY') FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAY,MON
+------------------------
+FRIDAY   ,OCTOBER  -2022
+
+SQL> SELECT TO_CHAR(SYSDATE,'DD,MONTH-YYYY') FROM DUAL;
+
+TO_CHAR(SYSDATE,'
+-----------------
+28,OCTOBER  -2022
+
+SQL> SELECT TO_CHAR(SYSDATE,'DD MON YYYY') FROM DUAL;
+
+TO_CHAR(SYS
+-----------
+28 OCT 2022
+
+SQL> SELECT TO_CHAR(45,'#$#34') FROM DUAL;
+SELECT TO_CHAR(45,'#$#34') FROM DUAL
+                  *
+ERROR at line 1:
+ORA-01481: invalid number format model
+
+
+SQL> SELECT TO_CHAR(45,'#34') FROM DUAL;
+SELECT TO_CHAR(45,'#34') FROM DUAL
+                  *
+ERROR at line 1:
+ORA-01481: invalid number format model
+
+
+SQL> SELECT TO_CHAR(45,'$80') FROM DUAL;
+SELECT TO_CHAR(45,'$80') FROM DUAL
+                  *
+ERROR at line 1:
+ORA-01481: invalid number format model
+
+
+SQL> SELECT TO_CHAR(45,'$') FROM DUAL;
+
+TO
+--
+##
+
+SQL> SELECT TO_CHAR(45,'5') FROM DUAL;
+
+TO
+--
+##
+
+SQL> SELECT TO_DATE('12-SEP-22','YYYY MM DAY') FROM DUAL;
+SELECT TO_DATE('12-SEP-22','YYYY MM DAY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01858: a non-numeric character was found where a numeric was expected
+
+
+SQL> SELECT TO_DATE('12-SEP-22','YYYY MON DAY') FROM DUAL;
+SELECT TO_DATE('12-SEP-22','YYYY MON DAY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01846: not a valid day of the week
+
+
+SQL> SELECT TO_DATE('12-SEP-22','YYYY MON DD') FROM DUAL;
+
+TO_DATE('
+---------
+22-SEP-12
+
+SQL> SELECT TO_DATE('12-SEP-22') FROM DUAL;
+
+TO_DATE('
+---------
+12-SEP-22
+
+SQL> SELECT TO_DATE('1122002','DD MON YYYY') FROM DUAL;
+SELECT TO_DATE('1122002','DD MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01861: literal does not match format string
+
+
+SQL> SELECT TO_DATE('1 12 2002','DD MON YYYY') FROM DUAL;
+SELECT TO_DATE('1 12 2002','DD MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> SELECT TO_DATE('11 12 2002','DD MON YYYY') FROM DUAL;
+SELECT TO_DATE('11 12 2002','DD MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> SELECT TO_DATE('11 12 2002','DD MMM YYYY') FROM DUAL;
+SELECT TO_DATE('11 12 2002','DD MMM YYYY') FROM DUAL
+                            *
+ERROR at line 1:
+ORA-01821: date format not recognized
+
+
+SQL> SELECT TO_DATE('11 12 2002','DD MM YYYY') FROM DUAL;
+
+TO_DATE('
+---------
+11-DEC-02
+
+SQL> SELECT TO_DATE('11 12 2002','DAY MON YYYY') FROM DUAL;
+SELECT TO_DATE('11 12 2002','DAY MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01846: not a valid day of the week
+
+
+SQL> SELECT TO_DATE('11 12 2002','DD MM YYYY') FROM DUAL;
+
+TO_DATE('
+---------
+11-DEC-02
+
+SQL> SELECT TO_DATE('111 12 2002','DDD MM YYYY') FROM DUAL;
+SELECT TO_DATE('111 12 2002','DDD MM YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01833: month conflicts with Julian date
+
+
+SQL> SELECT TO_DATE('111 5 2002','DDD MM YYYY') FROM DUAL;
+SELECT TO_DATE('111 5 2002','DDD MM YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01833: month conflicts with Julian date
+
+
+SQL> SELECT TO_DATE('111 4 2002','DDD MM YYYY') FROM DUAL;
+
+TO_DATE('
+---------
+21-APR-02
+
+SQL> SELECT TO_DATE('MON SEP 2022','DAY MON YYYY') FROM DUAL;
+SELECT TO_DATE('MON SEP 2022','DAY MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01846: not a valid day of the week
+
+
+SQL> SELECT TO_DATE('MONDAY SEP 2022','DAY MON YYYY') FROM DUAL;
+SELECT TO_DATE('MONDAY SEP 2022','DAY MON YYYY') FROM DUAL
+               *
+ERROR at line 1:
+ORA-01835: day of week conflicts with Julian date
+
+
+SQL> SELECT TO_DATE('11 SEP 2022','DD MON YYYY') FROM DUAL;
+
+TO_DATE('
+---------
+11-SEP-22
+
+SQL> SELECT TO_NUMBER('44') FROM DUAL;
+
+TO_NUMBER('44')
+---------------
+             44
+
+SQL> SELECT TO_NUMBER('AB') FROM DUAL;
+SELECT TO_NUMBER('AB') FROM DUAL
+                 *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TO_NUMBER('44.5') FROM DUAL;
+
+TO_NUMBER('44.5')
+-----------------
+             44.5
+
+SQL> SELECT LENGTH("STR") FROM DUAL;
+SELECT LENGTH("STR") FROM DUAL
+              *
+ERROR at line 1:
+ORA-00904: "STR": invalid identifier
+
+
+SQL> SELECT LENGTH('STR') FROM DUAL;
+
+LENGTH('STR')
+-------------
+            3
+
+SQL> SELECT LOWER('STR') FROM DUAL;
+
+LOW
+---
+str
+
+SQL> SELECT UPPER('StR') FROM DUAL;
+
+UPP
+---
+STR
+
+SQL> SELECT initcap('  ryrStRjgj') FROM DUAL;
+
+INITCAP('RY
+-----------
+  Ryrstrjgj
+
+SQL> SELECT substr('  ryrStRjgj ',4,7) FROM DUAL;
+
+SUBSTR(
+-------
+yrStRjg
+
+SQL> SELECT substr('ryrStRjgj',4,7) FROM DUAL;
+
+SUBSTR
+------
+StRjgj
+
+SQL> SELECT substr('ryrStRjgjlrtthjkjgsjgyk',4,7) FROM DUAL;
+
+SUBSTR(
+-------
+StRjgjl
+
+SQL> select LPAD('WER',2,'TY') FROM DUAL;
+
+LP
+--
+WE
+
+SQL> select LPAD('WER',12,'TY') FROM DUAL;
+
+LPAD('WER',1
+------------
+TYTYTYTYTWER
+
+SQL> select RPAD('WER',12,'TY') FROM DUAL;
+
+RPAD('WER',1
+------------
+WERTYTYTYTYT
+
+SQL> select RPAD('WER',2,'TY') FROM DUAL;
+
+RP
+--
+WE
+
+SQL> SELECT initcap('  ryr  StRjgj') FROM DUAL;
+
+INITCAP('RYRS
+-------------
+  Ryr  Strjgj
+
+SQL> SELECT LTRIM('  ryr  StRjgj ') FROM DUAL;
+
+LTRIM('RYRST
+------------
+ryr  StRjgj
+
+SQL> SELECT RTRIM('  ryr  StRjgj ') FROM DUAL;
+
+RTRIM('RYRSTR
+-------------
+  ryr  StRjgj
+
+SQL> SELECT RRIM('  ryr  StRjgj ') FROM DUAL;
+SELECT RRIM('  ryr  StRjgj ') FROM DUAL
+       *
+ERROR at line 1:
+ORA-00904: "RRIM": invalid identifier
+
+
+SQL> SELECT TRIM('  ryr  StRjgj ') FROM DUAL;
+
+TRIM('RYRST
+-----------
+ryr  StRjgj
+
+SQL>
+
+SQL> SELECT ASCII('HLO') FROM DUAL;
+
+ASCII('HLO')
+------------
+          72
+
+SQL> SELECT ASCII('H') FROM DUAL;
+
+ASCII('H')
+----------
+        72
+
+SQL> SELECT CHR(72) FROM DUAL;
+
+C
+-
+H
+
+SQL> SELECT CHR(74) FROM DUAL;
+
+C
+-
+J
+
+SQL> SELECT CHR(95) FROM DUAL;
+
+C
+-
+_
+
+SQL> SELECT CHR(94) FROM DUAL;
+
+C
+-
+^
+
+SQL> SELECT CHR(96) FROM DUAL;
+
+C
+-
+`
+
+SQL> SELECT CHR(125) FROM DUAL;
+
+C
+-
+}
+
+SQL> SELECT TRANSLATE('FSAFJKEAB','A','Z') FROM DUAL;
+
+TRANSLATE
+---------
+FSZFJKEZB
+
+SQL> SELECT REPLACE('FSAFJKEAB','A','Z') FROM DUAL;
+
+REPLACE('
+---------
+FSZFJKEZB
+
+SQL> SELECT REPLACE('FSAFJKEAB','SA','ZQ') FROM DUAL;
+
+REPLACE('
+---------
+FZQFJKEAB
+
+SQL> SELECT TRANSLATE('FSAFJKEAB','SA','ZQ') FROM DUAL;
+
+TRANSLATE
+---------
+FZQFJKEQB
+
+SQL> SELECT TO_CHAR(SYSDATE,'DD MM YYYY HH24 MI SS') FROM DUAL;
+
+TO_CHAR(SYSDATE,'DD
+-------------------
+28 10 2022 11 42 56
+
+SQL> SELECT TO_CHAR(SYSDATE,'DD MM YYYY HH24:MI:SS') FROM DUAL;
+
+TO_CHAR(SYSDATE,'DD
+-------------------
+28 10 2022 11:43:13
+
+SQL>
