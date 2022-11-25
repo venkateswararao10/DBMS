@@ -1,0 +1,602 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Fri Nov 4 09:50:55 2022
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+SQL> CONNECT
+Enter user-name: SYSTEM
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect
+Enter user-name: system
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> CONNECT
+Enter user-name: SYSTEM
+Enter password:
+Connected.
+SQL> create table empl(
+  2  eid varchar(5) primary key;
+eid varchar(5) primary key
+                         *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table empl(
+  2  eid varchar(5) primary key,
+  3  ename varchar(6) ,
+  4  salary int);
+
+Table created.
+
+SQL> describe empl;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL VARCHAR2(5)
+ ENAME                                              VARCHAR2(6)
+ SALARY                                             NUMBER(38)
+
+SQL> insert into empl values('132a','sai',100000);
+
+1 row created.
+
+SQL> select * from empl;
+
+EID   ENAME      SALARY
+----- ------ ----------
+132a  sai        100000
+
+SQL> create table dept(
+  2  did varchar(5) primary key,
+  3  dname varchar(6) ,
+  4  dno int check(dno<100));
+
+Table created.
+
+SQL> describe dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL VARCHAR2(5)
+ DNAME                                              VARCHAR2(6)
+ DNO                                                NUMBER(38)
+
+SQL> CREATE TABLE Persons (
+  2      ID int NOT NULL,
+  3      LastName varchar(255) NOT NULL,
+  4      FirstName varchar(255),
+  5      Age int,
+  6      City varchar(255),
+  7      CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+  8  ^X
+  9
+SQL> CREATE TABLE Persons (
+  2      ID int NOT NULL,
+  3      LastName varchar(255) NOT NULL,
+  4      FirstName varchar(255),
+  5      Age int,
+  6      City varchar(255),
+  7      CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+  8
+SQL> create table CREATE TABLE Persons (
+  2      ID int NOT NULL,
+  3      LastName varchar(255) NOT NULL,
+  4      FirstName varchar(255),
+  5      Age int,
+  6      City varchar(255),
+  7      CONSTRAINT CHK_P
+  8
+SQL> create table persons(
+  2  id int unique,
+  3  firstname varchar(5),
+  4  lastname varchar(5),
+  5  CONSTRAINT PK_Person PRIMARY KEY (firstname,lastname),
+  6  Age int,
+  7  CONSTRAINT CHK_Person CHECK (Age>=18),
+  8   CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID)
+  9
+SQL>  create table persons(
+  2    2  id int unique,
+  3    3  firstname varchar(5),
+  4    4  lastname varchar(5),
+  5    5  CONSTRAINT PK_Person PRIMARY KEY (firstname,lastname),
+  6    6  Age int,
+  7    7  CONSTRAINT CHK_Person CHECK (Age>=18),
+  8    8   CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID)
+  9
+SQL> create table persons(
+  2  id int unique,
+  3  firstname varchar(5),
+  4  lastname varchar(5),
+  5  Age int,
+  6  CONSTRAINT CHK_Person CHECK (Age>=18),
+  7  CONSTRAINT PK_Person PRIMARY KEY (firstname,lastname),
+  8  did varchar(5) FOREIGN KEY REFERENCES dept(did));
+did varchar(5) FOREIGN KEY REFERENCES dept(did))
+               *
+ERROR at line 8:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table persons(
+  2  id int unique,
+  3  firstname varchar(5),
+  4  lastname varchar(5),
+  5  Age int,
+  6  CONSTRAINT CHK_Person CHECK (Age>=18),
+  7  CONSTRAINT PK_Person PRIMARY KEY (firstname,lastname));
+
+Table created.
+
+SQL> desc pable;
+ERROR:
+ORA-04043: object pable does not exist
+
+
+SQL> desc persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ FIRSTNAME                                 NOT NULL VARCHAR2(5)
+ LASTNAME                                  NOT NULL VARCHAR2(5)
+ AGE                                                NUMBER(38)
+
+SQL> insert into persons values(21,'sai','kumar',15);
+insert into persons values(21,'sai','kumar',15)
+*
+ERROR at line 1:
+ORA-02290: check constraint (SYSTEM.CHK_PERSON) violated
+
+
+SQL> insert into persons values(21,'sai','kumar',19);
+
+1 row created.
+
+SQL> drop empl;
+drop empl
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table empl;
+
+Table dropped.
+
+SQL> truncate table dept;
+
+Table truncated.
+
+SQL> select * from dept;
+
+no rows selected
+
+SQL> alter table dept
+  2  add subject varchar(5);
+
+Table altered.
+
+SQL> describe dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL VARCHAR2(5)
+ DNAME                                              VARCHAR2(6)
+ DNO                                                NUMBER(38)
+ SUBJECT                                            VARCHAR2(5)
+
+SQL> alter table persons
+  2  add salary int;
+
+Table altered.
+
+SQL> describe persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ FIRSTNAME                                 NOT NULL VARCHAR2(5)
+ LASTNAME                                  NOT NULL VARCHAR2(5)
+ AGE                                                NUMBER(38)
+ SALARY                                             NUMBER(38)
+
+SQL> alter table persons
+  2  drop age ;
+drop age
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop age int;
+drop age int
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop Age;
+drop Age
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop column Age;
+
+Table altered.
+
+SQL> describe persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ FIRSTNAME                                 NOT NULL VARCHAR2(5)
+ LASTNAME                                  NOT NULL VARCHAR2(5)
+ SALARY                                             NUMBER(38)
+
+SQL> alter table persons
+  2  drop CHK_Persons;
+drop CHK_Persons
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop CHK_Person;
+drop CHK_Person
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop constraint CHK_Person;
+drop constraint CHK_Person
+                *
+ERROR at line 2:
+ORA-02443: Cannot drop constraint  - nonexistent constraint
+
+
+SQL> alter table persons
+  2  add constraint chksalary check(salary>1000);
+
+Table altered.
+
+SQL> alter table persons
+  2  drop constraint chksalary
+  3  ;
+
+Table altered.
+
+SQL> alter table dept
+  2  drop constaint did;
+drop constaint did
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> drop constraint did;
+drop constraint did
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> alter table dept
+  2  drop constraint did;
+drop constraint did
+                *
+ERROR at line 2:
+ORA-02443: Cannot drop constraint  - nonexistent constraint
+
+
+SQL> describe dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL VARCHAR2(5)
+ DNAME                                              VARCHAR2(6)
+ DNO                                                NUMBER(38)
+ SUBJECT                                            VARCHAR2(5)
+
+SQL> alter table dept
+  2  drop primarykey;
+drop primarykey
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table dept
+  2  drop primary key;
+
+Table altered.
+
+SQL> alter table empl
+  2  drop constraint eid;
+alter table empl
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> alter table dept
+  2
+SQL> alter table persons
+  2   modify column salary decimal(6,1);
+ modify column salary decimal(6,1)
+                      *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2   modify salary decimal(6,1);
+
+Table altered.
+
+SQL> describe dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                                VARCHAR2(5)
+ DNAME                                              VARCHAR2(6)
+ DNO                                                NUMBER(38)
+ SUBJECT                                            VARCHAR2(5)
+
+SQL> alter table dept
+  2  add constraint primarykey did;
+add constraint primarykey did
+                          *
+ERROR at line 2:
+ORA-02263: need to specify the datatype for this column
+
+
+SQL> alter table dept
+  2  ;
+
+*
+ERROR at line 2:
+ORA-02210: no options specified for ALTER TABLE
+
+
+SQL> alter table dept
+  2  add constraint primary key(did);
+add constraint primary key(did)
+                          *
+ERROR at line 2:
+ORA-00902: invalid datatype
+
+
+SQL> alter table dept
+  2  add constraint primary key did;
+add constraint primary key did
+                           *
+ERROR at line 2:
+ORA-00902: invalid datatype
+
+
+SQL> alter table dept
+  2  add constraint primary key (did);
+add constraint primary key (did)
+                           *
+ERROR at line 2:
+ORA-00902: invalid datatype
+
+
+SQL> alter table dept
+  2  add constraint primary key(DID);
+add constraint primary key(DID)
+                          *
+ERROR at line 2:
+ORA-00902: invalid datatype
+
+
+SQL> alter table dept
+  2  add constraint primary key (DID);
+add constraint primary key (DID)
+                           *
+ERROR at line 2:
+ORA-00902: invalid datatype
+
+
+SQL> alter table dept
+  2  add constraint pkey primary key (did);
+
+Table altered.
+
+SQL> alter table persons
+  2  add did varchar(5);
+
+Table altered.
+
+SQL> alter table persons
+  2  add foreign key(did) references dept(did);
+
+Table altered.
+
+SQL> alter table persons
+  2  drop foreign key;
+drop foreign key
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> drop foreign key did;
+drop foreign key did
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> alter table persons
+  2  drop foreign key (did);
+drop foreign key (did)
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop foreign key did;
+drop foreign key did
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> drop constaint foreign key did;
+drop constaint foreign key did
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop constaint foreign key ;
+drop constaint foreign key
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop constaint foreign key(did) ;
+drop constaint foreign key(did)
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> alter table persons
+  2  drop constaint foreign key did;
+drop constaint foreign key did
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> drop foreign key did;
+drop foreign key did
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> alter table persons
+  2  drop constaint foreign key(did) ;
+drop constaint foreign key(did)
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop foreign key ;
+drop foreign key
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop did foreign key ;
+drop did foreign key
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  drop constraint foreign key ;
+drop constraint foreign key
+                        *
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table persons
+  2  add unique(did);
+
+Table altered.
+
+SQL> alter table persons
+  2  drop unique;
+drop unique
+          *
+ERROR at line 2:
+ORA-00906: missing left parenthesis
+
+
+SQL> alter table persons
+  2  drop unique(did);
+
+Table altered.
+
+SQL> alter table persons
+  2  drop  foreign key(did) ;
+drop  foreign key(did)
+      *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table persons
+  2  add eid int notnull;
+add eid int notnull
+            *
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table persons
+  2  add eid int not null;
+alter table persons
+            *
+ERROR at line 1:
+ORA-01758: table must be empty to add mandatory (NOT NULL) column
+
+
+SQL> alter table persons
+  2  add dateofjoin date;
+
+Table altered.
+
+SQL> describe persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ FIRSTNAME                                 NOT NULL VARCHAR2(5)
+ LASTNAME                                  NOT NULL VARCHAR2(5)
+ SALARY                                             NUMBER(6,1)
+ DID                                                VARCHAR2(5)
+ DATEOFJOIN                                         DATE
+
+SQL> create table deptdate(
+  2  dateofjoin date);
+
+Table created.
+
+SQL> insert into deptdate values('1999-09-29');
+insert into deptdate values('1999-09-29')
+                            *
+ERROR at line 1:
+ORA-01861: literal does not match format string
+
+
+SQL> insert into deptdate values(to_date(1990-12-12', 'yyyy-mm-dd'));
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into deptdate values(to_date('1990-12-12', 'yyyy-mm-dd'));
+
+1 row created.
+
+SQL>

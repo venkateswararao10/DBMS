@@ -1,0 +1,447 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Thu Nov 24 15:01:25 2022
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> CREATE TABLE Orders (
+  2      OrderID int NOT NULL PRIMARY KEY,
+  3      OrderNumber int NOT NULL,
+  4      PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+  5  );
+    PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+                 *
+ERROR at line 4:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table courese_faculty(
+  2  faccode varchar(5),
+  3  ccode varchar(5),
+  4  grade char(1),
+  5  foreign key(faccode) references faculty(faccode),
+  6  foreign key(ccode) references faculty(ccode),
+  7  clear
+  8  );
+clear
+*
+ERROR at line 7:
+ORA-02263: need to specify the datatype for this column
+
+
+SQL> create table courese_faculty(
+  2  faccode varchar(5),
+  3  ccode varchar(5),
+  4  grade char(1),
+  5  foreign key(faccode) references faculty(faccode),
+  6  foreign key(ccode) references courses(ccode),
+  7  check(grade in ('A','B','C'))
+  8  );
+
+Table created.
+
+SQL> create table batches(
+  2  bcode varchar(5),
+  3  ccode varchar(5),
+  4  faccode varchar(5),
+  5  stdate date,
+  6  enddate date,
+  7  timing number(1),
+  8  primary key(bcode),
+  9  foreign key (ccode) references courses(ccode),
+ 10  foreign key(faccode) references faculty(faccode),
+ 11  check(enddate>=stdate),
+ 12  check(timing in (1,2,3))
+ 13  );
+
+Table created.
+
+SQL> create table students(
+  2  rollno number(5),
+  3  bcode varchar(5),
+  4  name varchar(30),
+  5  gender char(1),
+  6  dj date,
+  7  phone varchar(10)
+  8  email varchar(30),
+  9  vk);
+email varchar(30),
+*
+ERROR at line 8:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table students(
+  2  rollno number(5),
+  3  bcode varchar(5),
+  4  name varchar(30),
+  5  gender char(1),
+  6  dj date,
+  7  phone varchar(10),
+  8  email varchar(30),
+  9  primary key(rollno),
+ 10  foreign key (bcode) references batches(bcode),
+ 11  check(gender in ('m','f'))
+ 12  );
+
+Table created.
+
+SQL> create table payments(
+  2  rollno number(5),
+  3  dp date,
+  4  amount number(5),
+  5  primary key(rollno,dp),
+  6  check(amount>=25)
+  7  );
+
+Table created.
+
+SQL> insert into courses values('ora','oracle database',254500,'windows');
+insert into courses values('ora','oracle database',254500,'windows')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows');
+insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows')
+                                                                                *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',25450,'windows');
+
+1 row created.
+
+SQL> alter table courses
+  2  modify fee number(6);
+
+Table altered.
+
+SQL> update courses
+  2  set fee=254500
+  3  where ccode='ora';
+
+1 row updated.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('vbnet','vb.net',305500,'windows and programming');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('c','c programming',203500,'computer awareness');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('asp','asp.net',255500,'internet and programming');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('java','java language',254500,'c language');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('xml','xml programming',154000,'html,scripting,asp/jsp');
+
+1 row created.
+
+SQL> insert into faculty values('gk','george koch','ms computer science','15 years with databases');
+
+1 row created.
+
+SQL> insert into faculty values('da','dan appleman','cs and ee graduate','extensively worked with com');
+
+1 row created.
+
+SQL> insert into faculty values('hs','herbert schildt','ms computer science','author of several books');
+
+1 row created.
+
+SQL> insert into faculty values('dh','david hunter','ms electronics','extensively worked with internet technologies');
+
+1 row created.
+
+SQL> insert into faculty values('sw','stephen walther','ph.d. in philosophy','extensively worked with internet technologies');
+
+1 row created.
+
+SQL> insert into faculty values('kl','kevin loney','ms electronics','specialized in oracle dba');
+
+1 row created.
+
+SQL> insert into faculty values('jj','jamie jaworski','bachelor of electrical','developed programs for us defence department');
+
+1 row created.
+
+SQL> insert into faculty values('jc','jason couchman','ocp dba','published articles on oracle');
+
+1 row created.
+
+SQL>
+
+SQL> insert into course_faculty values('gk','ora','A');
+insert into course_faculty values('gk','ora','A')
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc courses_faculty;
+ERROR:
+ORA-04043: object courses_faculty does not exist
+
+
+SQL> desc course_faculty;
+ERROR:
+ORA-04043: object course_faculty does not exist
+
+
+SQL> alter table courese_faculty
+  2  rename to course_faculty;
+
+Table altered.
+
+SQL> insert into course_faculty values('gk','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jc','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('kl','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('da','vbnet','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('sw','asp','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('da','asp','B');
+
+1 row created.
+
+SQL> insert into course_faculty values('hs','c','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('dh','xml','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','java','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('hs','java','B');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','c','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','vbnet','B');
+
+1 row created.
+
+SQL>
+Connected.
+SQL> insert into batches values('b1','ora','gk','12-jan-2021','20-feb-2021',1);
+
+1 row created.
+
+SQL> insert into batches values('b2','asp','da','15-jan-2021','5-mar-2021',2);
+
+1 row created.
+
+SQL> insert into batches values('b3','c','hs','20-jan-2021','27-febr-2021',3);
+insert into batches values('b3','c','hs','20-jan-2021','27-febr-2021',3)
+                                                       *
+ERROR at line 1:
+ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+
+
+SQL> insert into batches values('b3','c','hs','20-jan-2021','27-feb-2021',3);
+
+1 row created.
+
+SQL> insert into batches values('b4','xml','dh','02-mar-2021','30-mar-2021',3);
+
+1 row created.
+
+SQL> insert into batches values('b5','java','hs','05-apr-2021','10-may-2021',1);
+
+1 row created.
+
+SQL> insert into batches(bcode,ccode,faccode,stdate,timing) values('b6','vbnet','da','12-jul-2021',1);
+
+1 row created.
+
+SQL> insert into batches(bcode,ccode,faccode,stdate,timing) values('b7','ora','jc','15-aug-2021',2);
+
+1 row created.
+
+SQL> insert into student values(1,'b1','george micheal','m','10-jan-2021','488333','gm@yahoo.com');
+insert into student values(1,'b1','george micheal','m','10-jan-2021','488333','gm@yahoo.com')
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into students values(1,'b1','george micheal','m','10-jan-2021','488333','gm@yahoo.com');
+
+1 row created.
+
+SQL> insert into students values(2,'b1','micheal douglas','m','11-jan-2021','348333','md@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(3,'b2','andy roberts','m','11-jan-2021','433554','ar@yahoo.com');
+
+1 row created.
+
+SQL> insert into students values(4,'b2','malcom marshall','m','16-jan-2021','653345','mm@usa.net');
+
+1 row created.
+
+SQL> insert into students values(5,'b2','vivan richards','m','16-jan-2021','641238','vr@yahoo.com');
+
+1 row created.
+
+SQL> insert into students(rollno,bcode,name,gender,dj,email) values(6,'b3','chirs evert','f','14-jan-2021','ce@yahoo.com');
+
+1 row created.
+
+SQL> insert into students values(7,'b3','ivan lendal','m','15-jan-2021','431212','il@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(8,'b4','george micheal','m','1-mar-2021','488333','gm@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(9,'b5','richard marx','m','6-apr-2021','876567','rm@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(10,'b5','tina turner','f','6-apr-2021','565678','tinat@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(11,'b5','jody foster','f','7-apr-2021','234344','jody@hotmail.com');
+
+1 row created.
+
+SQL> insert into payments values(1,'10-jan-2021',4500);
+
+1 row created.
+
+SQL> insert into payments values(2,'11-jan-2021',3500);
+
+1 row created.
+
+SQL> insert into payments values(2,'17-jan-2021',1000);
+
+1 row created.
+
+SQL> insert into payments values(3,'13-jan-2021',2000);
+
+1 row created.
+
+SQL> insert into payments values(3,'20-jan-2021',3000);
+
+1 row created.
+
+SQL> insert into payments values(4,'16-jan-2021',3000);
+
+1 row created.
+
+SQL> insert into payments values(4,'30-jan-2021',2000);
+
+1 row created.
+
+SQL>
+
+SQL> alter table courses
+  2  add cat varchar(10) not null;
+alter table courses
+            *
+ERROR at line 1:
+ORA-01758: table must be empty to add mandatory (NOT NULL) column
+
+
+SQL> alter table courses
+  2  add cat varchar(10);
+
+Table altered.
+
+SQL> insert into courses(cat) values('comp');
+insert into courses(cat) values('comp')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."COURSES"."CCODE")
+
+
+SQL> update courses
+  2  set cat='comp';
+
+6 rows updated.
+
+SQL> alter table courses
+  2  add constraint chkcat check(cat like '__%');
+
+Table altered.
+
+
+SQL> alter table courses
+  2  modify cat varchar(10) not null;
+
+Table altered.
+
+SQL> desc courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CCODE                                     NOT NULL VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ DURATION                                           NUMBER(3)
+ FEE                                                NUMBER(6)
+ PREREQUISITE                                       VARCHAR2(100)
+ CAT                                       NOT NULL VARCHAR2(10)
+
+SQL> alter table courses
+  2  modify cat varchar(10);
+
+Table altered.
+
+SQL> alter table courses
+  2  modify cat varchar(5);
+
+Table altered.
+
+SQL> alter table courses
+  2  add rating char(1);
+
+Table altered.
+
+SQL> alter table courses
+  2  modify rating number(5);
+
+Table altered.
+
+SQL> alter table courses
+  2  drop constraint chkcat;
+
+Table altered.
+
+SQL> alter table courses
+  2  drop primary key cascade;
+
+Table altered.
