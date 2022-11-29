@@ -445,3 +445,8 @@ SQL> alter table courses
   2  drop primary key cascade;
 
 Table altered.
+
+SQL> alter table courses
+  2  drop column cat;
+
+Table altered.
