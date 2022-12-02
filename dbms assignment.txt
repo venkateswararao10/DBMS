@@ -7,6 +7,41 @@ SQL> connect
 Enter user-name: system
 Enter password:
 Connected.
+
+SQL> create table courses(
+  2  ccode varchar(5),
+  3  name varchar(30),
+  4  duration number(3),
+  5  fee number(5),
+  6  prerequisite varchar(100),
+  7  primary key(ccode),
+  8  check(fee >= 0),
+  9  check(duration >=0));
+
+Table created.
+
+SQL> create table faculty(
+  2  faccode varchar(5),
+  3  name varchar(30),
+  4  qual carchar(30),
+  5  exp varchar(100),
+  6  primary key(faccode));
+qual carchar(30),
+            *
+ERROR at line 4:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table faculty(
+  2  faccode varchar(5),
+  3  name varchar(30),
+  4  qual varchar(30),
+  5  exp varchar(100),
+  6  primary key(faccode));
+
+Table created.
+
+
 SQL> CREATE TABLE Orders (
   2      OrderID int NOT NULL PRIMARY KEY,
   3      OrderNumber int NOT NULL,
@@ -31,7 +66,6 @@ clear
 ERROR at line 7:
 ORA-02263: need to specify the datatype for this column
 
-
 SQL> create table courese_faculty(
   2  faccode varchar(5),
   3  ccode varchar(5),
@@ -44,18 +78,18 @@ SQL> create table courese_faculty(
 Table created.
 
 SQL> create table batches(
-  2  bcode varchar(5),
-  3  ccode varchar(5),
-  4  faccode varchar(5),
-  5  stdate date,
-  6  enddate date,
-  7  timing number(1),
-  8  primary key(bcode),
-  9  foreign key (ccode) references courses(ccode),
- 10  foreign key(faccode) references faculty(faccode),
- 11  check(enddate>=stdate),
- 12  check(timing in (1,2,3))
- 13  );
+    bcode varchar(5),
+    ccode varchar(5),
+    faccode varchar(5),
+   stdate date,
+    enddate date,
+    timing number(1),
+    primary key(bcode),
+   foreign key (ccode) references courses(ccode),
+   foreign key(faccode) references faculty(faccode),
+  check(enddate>=stdate),
+  check(timing in (1,2,3))
+  );
 
 Table created.
 
@@ -75,27 +109,27 @@ ORA-00907: missing right parenthesis
 
 
 SQL> create table students(
-  2  rollno number(5),
-  3  bcode varchar(5),
-  4  name varchar(30),
-  5  gender char(1),
-  6  dj date,
-  7  phone varchar(10),
-  8  email varchar(30),
-  9  primary key(rollno),
- 10  foreign key (bcode) references batches(bcode),
- 11  check(gender in ('m','f'))
- 12  );
+   rollno number(5),
+    bcode varchar(5),
+    name varchar(30),
+    gender char(1),
+    dj date,
+   phone varchar(10),
+   email varchar(30),
+   primary key(rollno),
+  foreign key (bcode) references batches(bcode),
+   check(gender in ('m','f'))
+   );
 
 Table created.
 
 SQL> create table payments(
-  2  rollno number(5),
-  3  dp date,
-  4  amount number(5),
-  5  primary key(rollno,dp),
-  6  check(amount>=25)
-  7  );
+   rollno number(5),
+    dp date,
+    amount number(5),
+    primary key(rollno,dp),
+    check(amount>=25)
+    );
 
 Table created.
 
@@ -118,7 +152,7 @@ SQL> insert into courses(ccode,name,fee,prerequisite) values('ora','oracle datab
 1 row created.
 
 SQL> alter table courses
-  2  modify fee number(6);
+   modify fee number(6);
 
 Table altered.
 
@@ -445,8 +479,410 @@ SQL> alter table courses
   2  drop primary key cascade;
 
 Table altered.
-
 SQL> alter table courses
   2  drop column cat;
 
 Table altered.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> describe courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CCODE                                              VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ DURATION                                           NUMBER(3)
+ FEE                                                NUMBER(6)
+ PREREQUISITE                                       VARCHAR2(100)
+ RATING                                             NUMBER(5)
+
+SQL> describe batches;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BCODE                                     NOT NULL VARCHAR2(5)
+ CCODE                                              VARCHAR2(5)
+ FACCODE                                            VARCHAR2(5)
+ STDATE                                             DATE
+ ENDDATE                                            DATE
+ TIMING                                             NUMBER(1)
+
+SQL> alter table faculty
+  2  drop column fcode cascade constraints;
+drop column fcode cascade constraints
+            *
+ERROR at line 2:
+ORA-00904: "FCODE": invalid identifier
+
+
+SQL> alter table faculty
+  2  drop column fcode cascade constraint;
+drop column fcode cascade constraint
+            *
+ERROR at line 2:
+ORA-00904: "FCODE": invalid identifier
+
+
+SQL> alter table faculty
+  2  drop column FCODE cascade constraint;
+drop column FCODE cascade constraint
+            *
+ERROR at line 2:
+ORA-00904: "FCODE": invalid identifier
+
+
+SQL> describe faculty;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FACCODE                                   NOT NULL VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ QUAL                                               VARCHAR2(30)
+ EXP                                                VARCHAR2(100)
+
+SQL> alter table faculty
+  2  drop column FacCODE cascade constraint;
+
+Table altered.
+
+
+SQL> describe faculty;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(30)
+ QUAL                                               VARCHAR2(30)
+ EXP                                                VARCHAR2(100)
+
+SQL> alter table courses
+  2  set unused column cat;
+set unused column cat
+                  *
+ERROR at line 2:
+ORA-00904: "CAT": invalid identifier
+
+
+SQL> alter table courses
+  2  add column cat varchar(10);
+add column cat varchar(10)
+    *
+ERROR at line 2:
+ORA-00904: : invalid identifier
+
+
+SQL> alter table courses
+  2  add cat varchar(10);
+
+Table altered.
+
+SQL> alter table courses
+  2  update cat='hlo';
+update cat='hlo'
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> update table courses
+  2  set cat='hlo';
+update table courses
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update courses
+  2  set cat='hlo';
+
+6 rows updated.
+
+SQL> select * from courses;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+    RATING CAT
+---------- ----------
+ora   oracle database                               254500
+windows
+           hlo
+
+vbnet vb.net                                        305500
+windows and programming
+           hlo
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+    RATING CAT
+---------- ----------
+
+c     c programming                                 203500
+computer awareness
+           hlo
+
+asp   asp.net                                       255500
+internet and programming
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+    RATING CAT
+---------- ----------
+           hlo
+
+java  java language                                 254500
+c language
+           hlo
+
+xml   xml programming                               154000
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+    RATING CAT
+---------- ----------
+html,scripting,asp/jsp
+           hlo
+
+
+6 rows selected.
+
+SQL> alter table courses
+  2  set unused column cat;
+
+Table altered.
+
+SQL> select cat,ccode from courses;
+select cat,ccode from courses
+       *
+ERROR at line 1:
+ORA-00904: "CAT": invalid identifier
+
+SQL> alter table courses
+  2  drop unused column;
+
+Table altered.
+
+SQL> desc courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CCODE                                              VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ DURATION                                           NUMBER(3)
+ FEE                                                NUMBER(6)
+ PREREQUISITE                                       VARCHAR2(100)
+ RATING                                             NUMBER(5)
+
+SQL>
+SQL> alter table courses
+  2  disable primary key;
+alter table courses
+*
+ERROR at line 1:
+ORA-02433: cannot disable primary key - primary key not defined for table
+
+
+SQL> alter table courses
+  2  )
+  3  ;
+)
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> desc course_faculty;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FACCODE                                            VARCHAR2(5)
+ CCODE                                              VARCHAR2(5)
+ GRADE                                              CHAR(1)
+
+SQL> desc students;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER(5)
+ BCODE                                              VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ GENDER                                             CHAR(1)
+ DJ                                                 DATE
+ PHONE                                              VARCHAR2(10)
+ EMAIL                                              VARCHAR2(30)
+
+SQL> alter table courses
+  2  modify primary key(ccode);
+modify primary key(ccode)
+                  *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL> alter table courses
+  2  add primary key(ccode);
+
+Table altered.
+
+SQL> select * from course
+  2  _faculty;
+_faculty
+*
+ERROR at line 2:
+ORA-00911: invalid character
+
+
+SQL> select * from course_faculty;
+
+no rows selected
+
+SQL> select grade from course_faculty;
+
+no rows selected
+
+SQL> alter table courses
+  2  disable primary key;
+
+Table altered.
+
+SQL> desc courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CCODE                                              VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ DURATION                                           NUMBER(3)
+ FEE                                                NUMBER(6)
+ PREREQUISITE                                       VARCHAR2(100)
+ RATING                                             NUMBER(5)
+
+SQL> alter table courses
+  2  enable primary key;
+
+Table altered.
+
+SQL> desc courses;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CCODE                                     NOT NULL VARCHAR2(5)
+ NAME                                               VARCHAR2(30)
+ DURATION                                           NUMBER(3)
+ FEE                                                NUMBER(6)
+ PREREQUISITE                                       VARCHAR2(100)
+ RATING                                             NUMBER(5)
+
+SQL> alter table courses
+  2  add cat varchar(5);
+
+Table altered.
+
+SQL> update courses
+  2  set cat='hlo';
+
+6 rows updated.
+
+SQL> alter table courses
+  2  add constraint chkcat check(cat like '__%');
+
+Table altered.
+
+SQL> alter table courses
+  2  disable constraint chkcat;
+
+Table altered.
+
+SQL> alter table courses
+  2  enable constraint chkcat;
+
+Table altered.
+
+SQL> alter table faculty
+  2  ;
+
+*
+ERROR at line 2:
+ORA-02210: no options specified for ALTER TABLE
+
+
+SQL> drop table faculty;
+
+Table dropped.
+
+SQL> drop table courses;
+
+Table dropped.
+
+SQL> drop table course_faculty;
+
+Table dropped.
+
+SQL> drop table batches;
+drop table batches
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys
+
+
+SQL> alter table batches;
+alter table batches
+                  *
+ERROR at line 1:
+ORA-02210: no options specified for ALTER TABLE
+
+
+SQL> alter table batches
+  2  drop constraint;
+drop constraint
+              *
+ERROR at line 2:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table batches
+  2  drop constraints;
+drop constraints
+               *
+ERROR at line 2:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table batches
+  2  drop all constraints;
+drop all constraints
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> alter table batches
+  2  drop primary key cascade constraint;
+drop primary key cascade constraint
+                         *
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table batches
+  2  drop primary key cascade;
+
+Table altered.
+
+SQL> drop table batches;
+
+Table dropped.
+
+SQL> drop table students;
+
+Table dropped.
+
+SQL> drop payments;
+drop payments
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table payments;
+
+Table dropped.
