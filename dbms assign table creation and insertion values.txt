@@ -1,0 +1,284 @@
+SQL> create table courses(
+    ccode varchar(5),
+    name varchar(30),
+    duration number(3),
+    fee number(5),
+    prerequisite varchar(100),
+   primary key(ccode),
+   check(fee >= 0),
+   check(duration >=0));
+
+Table created.
+
+
+SQL> create table faculty(
+    faccode varchar(5),
+    name varchar(30),
+    qual varchar(30),
+    exp varchar(100),
+    primary key(faccode));
+
+Table created.
+
+
+SQL> create table course_faculty(
+     faccode varchar(5),
+     ccode varchar(5),
+     grade char(1),
+     foreign key(faccode) references faculty(faccode),
+     check(grade in ('A','B','C')),
+     foreign key(ccode) references courses(ccode));
+
+Table created.
+
+SQL> create table batches(
+        bcode varchar(5),
+       ccode varchar(5),
+        faccode varchar(5),
+       stdate date,
+       enddate date,
+        timing number(1),
+       primary key(bcode),
+       foreign key (ccode) references courses(ccode),
+      foreign key(faccode) references faculty(faccode),
+     check(enddate>=stdate),
+     check(timing in (1,2,3))
+     );
+
+Table created.
+
+SQL> create table students(
+       rollno number(5),
+        bcode varchar(5),
+        name varchar(30),
+        gender char(1),
+        dj date,
+       phone varchar(10),
+       email varchar(30),
+       primary key(rollno),
+     foreign key (bcode) references batches(bcode),
+      check(gender in ('m','f'))
+      );
+
+Table created.
+
+SQL> create table payments(
+       rollno number(5),
+        dp date,
+        amount number(5),
+        primary key(rollno,dp),
+       check(amount>=25)
+        );
+
+Table created.
+
+SQL> alter table courses
+       modify fee number(6);
+
+Table altered.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('vbnet','vb.net',305500,'windows and programming');
+
+1 row created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('c','c programming',203500,'computer awareness');
+
+1 row created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('asp','asp.net',255500,'internet and programming');
+
+1 row created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('java','java language',254500,'c language');
+
+1 row created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('xml','xml programming',154000,'html,scripting,asp/jsp');
+
+1 row created.
+
+SQL>  insert into faculty values('gk','george koch','ms computer science','15 years with databases');
+
+1 row created.
+
+SQL>  insert into faculty values('da','dan appleman','cs and ee graduate','extensively worked with com');
+
+1 row created.
+
+SQL>  insert into faculty values('hs','herbert schildt','ms computer science','author of several books');
+
+1 row created.
+
+SQL> insert into faculty values('dh','david hunter','ms electronics','extensively worked with internet technologies');
+
+1 row created.
+
+SQL>  insert into faculty values('sw','stephen walther','ph.d. in philosophy','extensively worked with internet technologies');
+
+1 row created.
+
+SQL> insert into faculty values('kl','kevin loney','ms electronics','specialized in oracle dba');
+
+1 row created.
+
+SQL> insert into faculty values('jj','jamie jaworski','bachelor of electrical','developed programs for us defence department');
+
+1 row created.
+
+SQL>  insert into faculty values('jc','jason couchman','ocp dba','published articles on oracle');
+
+1 row created.
+
+SQL>  insert into course_faculty values('gk','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jc','ora','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('kl','ora','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('da','vbnet','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('sw','asp','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('da','asp','B');
+
+1 row created.
+
+SQL>  insert into course_faculty values('hs','c','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('dh','xml','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('jj','java','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('hs','java','B');
+
+1 row created.
+
+SQL>  insert into course_faculty values('jj','c','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','vbnet','B');
+
+1 row created.
+
+SQL>  insert into batches values('b1','ora','gk','12-jan-2021','20-feb-2021',1);
+
+1 row created.
+
+SQL> insert into batches values('b2','asp','da','15-jan-2021','5-mar-2021',2);
+
+1 row created.
+
+SQL> insert into batches values('b3','c','hs','20-jan-2021','27-feb-2021',3);
+
+1 row created.
+
+SQL>  insert into batches values('b4','xml','dh','02-mar-2021','30-mar-2021',3);
+
+1 row created.
+
+SQL>  insert into batches values('b5','java','hs','05-apr-2021','10-may-2021',1);
+
+1 row created.
+
+SQL>
+SQL> insert into batches(bcode,ccode,faccode,stdate,timing) values('b6','vbnet','da','12-jul-2021',1);
+
+1 row created.
+
+SQL>
+SQL> insert into batches(bcode,ccode,faccode,stdate,timing) values('b7','ora','jc','15-aug-2021',2);
+
+1 row created.
+
+SQL> insert into students values(1,'b1','george micheal','m','10-jan-2021','488333','gm@yahoo.com');
+
+1 row created.
+
+SQL>  insert into students values(2,'b1','micheal douglas','m','11-jan-2021','348333','md@gmail.com');
+
+1 row created.
+
+SQL>  insert into students values(3,'b2','andy roberts','m','11-jan-2021','433554','ar@yahoo.com');
+
+1 row created.
+
+SQL>  insert into students values(4,'b2','malcom marshall','m','16-jan-2021','653345','mm@usa.net');
+
+1 row created.
+
+SQL> insert into students values(5,'b2','vivan richards','m','16-jan-2021','641238','vr@yahoo.com');
+
+1 row created.
+
+SQL>  insert into students(rollno,bcode,name,gender,dj,email) values(6,'b3','chirs evert','f','14-jan-2021','ce@yahoo.com');
+
+1 row created.
+
+SQL>  insert into students values(7,'b3','ivan lendal','m','15-jan-2021','431212','il@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(8,'b4','george micheal','m','1-mar-2021','488333','gm@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(9,'b5','richard marx','m','6-apr-2021','876567','rm@gmail.com');
+
+1 row created.
+
+SQL>  insert into students values(10,'b5','tina turner','f','6-apr-2021','565678','tinat@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(11,'b5','jody foster','f','7-apr-2021','234344','jody@hotmail.com');
+
+1 row created.
+
+SQL>  insert into payments values(1,'10-jan-2021',4500);
+
+1 row created.
+
+SQL>  insert into payments values(2,'11-jan-2021',3500);
+
+1 row created.
+
+SQL>  insert into payments values(2,'17-jan-2021',1000);
+
+1 row created.
+
+SQL>  insert into payments values(3,'13-jan-2021',2000);
+
+1 row created.
+
+SQL> insert into payments values(3,'20-jan-2021',3000);
+
+1 row created.
+
+SQL>  insert into payments values(4,'16-jan-2021',3000);
+
+1 row created.
+
+SQL> insert into payments values(4,'30-jan-2021',2000);
+
+1 row created.
