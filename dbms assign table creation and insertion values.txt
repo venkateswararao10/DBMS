@@ -4,9 +4,9 @@ SQL> create table courses(
     duration number(3),
     fee number(5),
     prerequisite varchar(100),
-   primary key(ccode),
-   check(fee >= 0),
-   check(duration >=0));
+   constraint pkccode primary key(ccode),
+  constraint chkfee check(fee >= 0),
+   constraint chkduration check(duration >=0));
 
 Table created.
 
@@ -16,7 +16,7 @@ SQL> create table faculty(
     name varchar(30),
     qual varchar(30),
     exp varchar(100),
-    primary key(faccode));
+    constraint pkfaccode primary key(faccode));
 
 Table created.
 
@@ -25,9 +25,9 @@ SQL> create table course_faculty(
      faccode varchar(5),
      ccode varchar(5),
      grade char(1),
-     foreign key(faccode) references faculty(faccode),
-     check(grade in ('A','B','C')),
-     foreign key(ccode) references courses(ccode));
+     constraint fkfaccode foreign key(faccode) references faculty(faccode),
+     constraint chkgrade check(grade in ('A','B','C')),
+     constraint fkccode foreign key(ccode) references courses(ccode));
 
 Table created.
 
@@ -38,11 +38,11 @@ SQL> create table batches(
        stdate date,
        enddate date,
         timing number(1),
-       primary key(bcode),
-       foreign key (ccode) references courses(ccode),
-      foreign key(faccode) references faculty(faccode),
-     check(enddate>=stdate),
-     check(timing in (1,2,3))
+      constraint pkbcode primary key(bcode),
+      constraint fkccodebatches foreign key (ccode) references courses(ccode),
+     constraint fkfaccodebatches foreign key(faccode) references faculty(faccode),
+     constraint chkdate check(enddate>=stdate),
+     constraint chktiming check(timing in (1,2,3))
      );
 
 Table created.
@@ -55,9 +55,9 @@ SQL> create table students(
         dj date,
        phone varchar(10),
        email varchar(30),
-       primary key(rollno),
-     foreign key (bcode) references batches(bcode),
-      check(gender in ('m','f'))
+       constraint pkrollno primary key(rollno),
+     constraint fkbcode foreign key (bcode) references batches(bcode),
+     constraint chgender check(gender in ('m','f'))
       );
 
 Table created.
@@ -66,8 +66,8 @@ SQL> create table payments(
        rollno number(5),
         dp date,
         amount number(5),
-        primary key(rollno,dp),
-       check(amount>=25)
+        constraint pkrollnodp primary key(rollno,dp),
+       constraint chkamount check(amount>=25)
         );
 
 Table created.
@@ -89,12 +89,10 @@ SQL>  insert into courses(ccode,name,fee,prerequisite) values('c','c programming
 
 1 row created.
 
-SQL>  insert into courses(ccode,name,fee,prerequisite) values('asp','asp.net',255500,'internet and programming');
-
+SQL> insert into courses(ccode,name,fee,prerequisite) values('asp','asp.net',255500,'internet and programming');
 1 row created.
 
 SQL>  insert into courses(ccode,name,fee,prerequisite) values('java','java language',254500,'c language');
-
 1 row created.
 
 SQL>  insert into courses(ccode,name,fee,prerequisite) values('xml','xml programming',154000,'html,scripting,asp/jsp');
@@ -282,3 +280,470 @@ SQL>  insert into payments values(4,'16-jan-2021',3000);
 SQL> insert into payments values(4,'30-jan-2021',2000);
 
 1 row created.
+
+
+SQL> delete from courses where ccode='c';
+delete from courses where ccode='c'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C004091) violated - child record
+found
+
+
+SQL> alter table courses
+  2  add constraint pk primary key(ccode);
+add constraint pk primary key(ccode)
+                  *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+SQL> drop table courses;
+drop table courses
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys
+
+
+SQL> alter table courses
+  2  drop primary key cascade;
+
+Table altered.
+
+SQL> alter table faculty
+  2  drop primary key cascade;
+
+Table altered.
+
+SQL> drop table courses;
+
+Table dropped.
+
+SQL> drop table faculty;
+
+Table dropped.
+
+SQL> drop table course_faculty;
+
+Table dropped.
+
+SQL> alter table batches
+  2  drop column bcode cascade;
+drop column bcode cascade
+                        *
+ERROR at line 2:
+ORA-02000: missing CONSTRAINTS keyword
+
+
+SQL> alter table batches
+  2  drop column bcode cascade constraint;
+
+Table altered.
+
+SQL> drop table batches;
+
+Table dropped.
+
+SQL> alter table students
+  2  drop column rollno cascade constraints;
+
+Table altered.
+
+SQL> drop table students;
+
+Table dropped.
+
+
+SQL> drop table payments;
+
+Table dropped.
+
+SQL>  create table courses59(
+  2      ccode varchar(5),
+  3      name varchar(30),
+  4      duration number(3),
+  5      fee number(5),
+  6      prerequisite varchar(100),
+  7     constraint pkccode primary key(ccode),
+  8    constraint chkfee check(fee >= 0),
+  9     constraint chkduration check(duration >=0));
+  constraint chkfee check(fee >= 0),
+             *
+ERROR at line 8:
+ORA-02264: name already used by an existing constraint
+
+
+SQL> create table courses59(
+  2   ccode varchar(5),
+  3      name varchar(30),
+  4      duration number(3),
+  5      fee number(5),
+  6      prerequisite varchar(100),
+  7     primary key(ccode),
+  8     check(fee >= 0),
+  9     check(duration >=0));
+
+Table created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows');
+ insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.PKCCODE) violated
+
+
+SQL>  insert into courses59(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows');
+ insert into courses59(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows')
+                                                                                   *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL>  insert into courses59(ccode,name,fee,prerequisite) values('ora','oracle database',25450,'windows');
+
+1 row created.
+
+SQL> delete from courses59 where ccode='ora';
+
+1 row deleted.
+
+SQL> create table faculty59(
+  2   faccode varchar(5),
+  3      name varchar(30),
+  4      qual varchar(30),
+  5      exp varchar(100),
+  6      primary key(faccode));
+
+Table created.
+
+SQL> create table course_faculty59(
+  2   faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5       foreign key(faccode) references faculty(faccode),
+  6       check(grade in ('A','B','C')),
+  7       foreign key(ccode) references courses(ccode));
+
+Table created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('c','c programming',203500,'computer awareness');
+insert into courses(ccode,name,fee,prerequisite) values('c','c programming',203500,'computer awareness')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.PKCCODE) violated
+
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('c','c programming',20350,'computer awareness');
+insert into courses(ccode,name,fee,prerequisite) values('c','c programming',20350,'computer awareness')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.PKCCODE) violated
+
+
+SQL> insert into courses59(ccode,name,fee,prerequisite) values('c','c programming',20350,'computer awareness');
+
+1 row created.
+
+SQL> insert into faculty59 values('hs','herbert schildt','ms computer science','author of several books');
+
+1 row created.
+
+SQL>  insert into course_faculty59 values('hs','c','A');
+
+1 row created.
+
+SQL> delete from courses where ccode='c';
+delete from courses where ccode='c'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.FKCCODE) violated - child record found
+
+
+SQL> delete from courses59 where ccode='c';
+
+1 row deleted.
+
+SQL> select * from faculty59;
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+hs    herbert schildt                ms computer science
+author of several books
+
+
+SQL> select * from course_faculty59;
+
+FACCO CCODE G
+----- ----- -
+hs    c     A
+
+SQL> insert into courses59(ccode,name,fee,prerequisite) values('c','c programming',20350,'computer awareness');
+
+1 row created.
+
+SQL> alter table course_faculty59
+  2  on delete cascade,
+  3  on update cascade;
+on delete cascade,
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table course_faculty59
+  2  add on delete cascade,
+  3  add on update cascade;
+add on delete cascade,
+    *
+ERROR at line 2:
+ORA-00904: : invalid identifier
+
+
+SQL> alter table course_faculty59
+  2  on delete cascade;
+on delete cascade
+*
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table course_faculty59
+  2  add constraint delfk on delete cascade;
+add constraint delfk on delete cascade
+                     *
+ERROR at line 2:
+ORA-00904: : invalid identifier
+
+
+SQL> alter table course_faculty59
+  2  drop foreign key ccode,faccode;
+drop foreign key ccode,faccode
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL> drop table course_faculty;
+
+Table dropped.
+
+SQL> create table course_faculty59(
+  2  faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5   check(grade in ('A','B','C')),
+  6   foreign key(faccode,ccode) references faculty(faccode,ccode)
+  7  on delete cascade
+  8  on update cascade);
+on update cascade)
+*
+ERROR at line 8:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table course_faculty59(
+  2  faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5   check(grade in ('A','B','C')),
+  6   foreign key(faccode,ccode) references faculty(faccode,ccode)
+  7  on delete cascade
+  8  );
+create table course_faculty59(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> drop table course_faculty59;
+
+Table dropped.
+
+SQL> create table course_faculty59(
+  2  faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5   check(grade in ('A','B','C')),
+  6  constraint fkfc foreign key(faccode,ccode) references faculty(faccode,ccode)
+  7  on delete cascade on update cascade
+  8  );
+on delete cascade on update cascade
+                  *
+ERROR at line 7:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table course_faculty59(
+  2  faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5   check(grade in ('A','B','C')),
+  6  constraint fkfc foreign key(faccode,ccode) references faculty(faccode,ccode)
+  7  on delete cascade
+  8  );
+constraint fkfc foreign key(faccode,ccode) references faculty(faccode,ccode)
+                                                                      *
+ERROR at line 6:
+ORA-00904: "CCODE": invalid identifier
+
+
+SQL> create table course_faculty59(
+  2  faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5   check(grade in ('A','B','C')),
+  6  constraint fkfac foreign key(faccode) references faculty(faccode)
+  7  on delete cascade
+  8  );
+
+Table created.
+
+SQL> delete from faculty where faccode='hs';
+delete from faculty where faccode='hs'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.FKFACCODEBATCHES) violated - child
+record found
+
+
+SQL> alter table course_faculty59
+  2  add constraint fkc foreign key(ccode) references courses(ccode)
+  3  on delete cascade;
+
+Table altered.
+
+SQL> delete from faculty where faccode='hs';
+delete from faculty where faccode='hs'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.FKFACCODEBATCHES) violated - child
+record found
+
+
+SQL> select * from faculty;
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+gk    george koch                    ms computer science
+15 years with databases
+
+da    dan appleman                   cs and ee graduate
+extensively worked with com
+
+hs    herbert schildt                ms computer science
+author of several books
+
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+dh    david hunter                   ms electronics
+extensively worked with internet technologies
+
+sw    stephen walther                ph.d. in philosophy
+extensively worked with internet technologies
+
+kl    kevin loney                    ms electronics
+specialized in oracle dba
+
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+jj    jamie jaworski                 bachelor of electrical
+developed programs for us defence department
+
+jc    jason couchman                 ocp dba
+published articles on oracle
+
+
+8 rows selected.
+
+SQL> select * from faculty59;
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+hs    herbert schildt                ms computer science
+author of several books
+
+
+SQL> alter table course_faculty59
+  2  drop constraint fkfac,fkc;
+drop constraint fkfac,fkc
+                     *
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table course_faculty59
+  2  drop constraint fkfac;
+
+Table altered.
+
+SQL> alter table course_faculty59
+  2  drop constraint fkc;
+
+Table altered.
+
+SQL> alter table course_faculty59
+  2  add constraint fkc foreign key(ccode) references courses(ccode)
+  3  on delete setnull;
+on delete setnull
+          *
+ERROR at line 3:
+ORA-00905: missing keyword
+
+
+SQL> alter table course_faculty59
+  2  add constraint fkc foreign key(ccode) references courses(ccode)
+  3  on delete set null;
+
+Table altered.
+
+SQL> alter table course_faculty59
+  2  add constraint fkfac foreign key(faccode) references courses(faccode)
+  3  on delete set null;
+add constraint fkfac foreign key(faccode) references courses(faccode)
+                                                             *
+ERROR at line 2:
+ORA-00904: "FACCODE": invalid identifier
+
+
+SQL> alter table course_faculty59
+  2  add constraint fkfac foreign key(faccode) references faculty(faccode)
+  3  on delete set null;
+
+Table altered.
+
+SQL> delete from faculty where faccode='hs';
+delete from faculty where faccode='hs'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.FKFACCODEBATCHES) violated - child
+record found
+
+
+SQL> delete from faculty59 where faccode='hs';
+
+1 row deleted.
+
+SQL> select * from course_faculty59;
+
+no rows selected
+
+SQL>  insert into courses59(ccode,name,fee,prerequisite) values('ora','oracle database',25450,'windows');
+
+1 row created.
+
+SQL> select * from course_faculty59;
+
+no rows selected
+
