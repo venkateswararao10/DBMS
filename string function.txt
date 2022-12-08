@@ -1,0 +1,34 @@
+CREATE TABLE Persons (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+INSERT INTO persons
+VALUES (21,'Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger');
+INSERT INTO persons
+VALUES (2,'dj tillu','Cardinal', 'Stavanger', 'Norway');
+INSERT INTO persons
+VALUES (2,'lldj till','Cardinal', 'Stavanger', 'Norway');
+select * from persons;
+select lower(city) from persons;
+select upper(city) from persons;
+select initcap(lastname) from persons;
+select length(city) from persons;
+select concat(address,city)as con from persons;
+select substr(firstname,2,4) from persons;
+select lpad(city,20,'&') from persons;
+select rpad(city,20,'^') from persons;
+select trim('l' from lastname) from persons;
+select rtrim(lastname,'l') from persons;
+select ltrim(lastname,'l') from persons;
+select chr(65) from persons;
+select ascii(city) from persons;
+select replace(city,'abc','zer') from persons;
+select replace(city,'a','z') from persons;
+select translate('123asdde13','213d','xyzq') from dual;
+select translate(lastname,'lai','xyz') from persons;
+select instr(lastname,'l') from persons;
+select instr(lastname,'l',1,2) from persons;
+select instr(lastname,'l',-1,1) from persons;
