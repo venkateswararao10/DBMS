@@ -1097,3 +1097,16 @@ SQL> select * from  payments where to_number(sysdate-dp)<=690;
 ---------- --------- ----------
          3 20-JAN-21       3000
          4 30-JAN-21       2000
+
+select round(fee,-3) from courses;
+
+ROUND(FEE,-3)
+-------------
+       255000
+       306000
+       204000
+       256000
+       255000
+       154000
+
+6 rows selected.
