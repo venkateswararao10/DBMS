@@ -1,0 +1,217 @@
+SQL> select
+  2  * from courses59;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+c     c programming                                  20350
+computer awareness
+
+
+SQL> create view course as
+  2  select * from courses59;
+
+View created.
+
+SQL> select * from course;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+c     c programming                                  20350
+computer awareness
+
+
+SQL> create or replace view course as
+  2  select ccode,name from courses59;
+
+View created.
+
+SQL> select * from course;
+
+CCODE NAME
+----- ------------------------------
+c     c programming
+
+SQL> insert into course values('java','java programming');
+
+1 row created.
+
+SQL> select * from course;
+
+CCODE NAME
+----- ------------------------------
+java  java programming
+c     c programming
+
+SQL> select * from courses59;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java programming
+
+
+c     c programming                                  20350
+computer awareness
+
+
+SQL> create or replace view course as
+  2  select name from courses59;
+
+View created.
+
+SQL> insert into course values('css programming');
+insert into course values('css programming')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."COURSES59"."CCODE")
+
+
+SQL> drop view course;
+
+View dropped.
+
+SQL> select * from course;
+select * from course
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+
+
+SQL> create view course as
+  2  select * from courses59
+  3  with read only;
+
+View created.
+
+SQL> insert into course(ccode,name) values('html','html programming');
+insert into course(ccode,name) values('html','html programming')
+                   *
+ERROR at line 1:
+ORA-01733: virtual column not allowed here
+
+
+SQL> create or replace view course as
+  2  select ccode,name from courses59
+  3  with read only;
+
+View created.
+
+SQL> insert into course(ccode,name) values('html','html programming');
+insert into course(ccode,name) values('html','html programming')
+                   *
+ERROR at line 1:
+ORA-01733: virtual column not allowed here
+
+
+SQL> insert into course values('html','html programming');
+insert into course values('html','html programming')
+*
+ERROR at line 1:
+ORA-01733: virtual column not allowed here
+
+
+SQL> create or replace view course as
+  2  select ccode,name from courses59;
+
+View created.
+
+SQL> insert into course values('html','html programming');
+
+1 row created.
+
+SQL> insert into course(ccode,name) values('html','html programming');
+insert into course(ccode,name) values('html','html programming')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C004126) violated
+
+
+SQL> update course
+  2  set fee=5500
+  3  where ccode='html';
+set fee=5500
+    *
+ERROR at line 2:
+ORA-00904: "FEE": invalid identifier
+
+
+SQL> create or replace view course as
+  2  select * from courses59;
+
+View created.
+
+SQL> update course
+  2  set fee=5500
+  3  where ccode='html';
+
+1 row updated.
+
+SQL> select * from course;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java programming
+
+
+html  html programming                                5500
+
+
+c     c programming                                  20350
+computer awareness
+
+
+SQL> select * from courses59;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java programming
+
+
+html  html programming                                5500
+
+
+c     c programming                                  20350
+computer awareness
+
+
+SQL> delete from course
+  2  where fee=5500;
+
+1 row deleted.
+
+SQL> select * from courses59;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java programming
+
+
+c     c programming                                  20350
+computer awareness
+
+
+SQL> select * from course;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java programming
+
+
+c     c programming                                  20350
+computer awareness
+
