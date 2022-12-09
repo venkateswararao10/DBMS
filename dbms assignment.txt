@@ -1150,3 +1150,27 @@ computer awareness
 
 xml   xml programming                        12     154000
 html,scripting,asp/jsp
+
+
+ select * from courses where instr(name,'programming')=0;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+ora   oracle database                        12     254500
+windows
+
+vbnet vb.net                                 12     305500
+windows and programming
+
+asp   asp.net                                12     255500
+internet and programming
+
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+java  java language                          12     254500
+c language
