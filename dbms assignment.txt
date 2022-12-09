@@ -1202,3 +1202,19 @@ ja
 xm
 
 6 rows selected.
+
+
+select substr(name,1,instr(name,' ')-1)||name||substr(name,instr(name,' ')+1) from faculty;
+
+SUBSTR(NAME,1,INSTR(NAME,'')-1)||NAME||SUBSTR(NAME,INSTR(NAME,'')+1)
+--------------------------------------------------------------------------------
+georgegeorge kochkoch
+dandan applemanappleman
+herbertherbert schildtschildt
+daviddavid hunterhunter
+stephenstephen waltherwalther
+kevinkevin loneyloney
+jamiejamie jaworskijaworski
+jasonjason couchmancouchman
+
+8 rows selected.
