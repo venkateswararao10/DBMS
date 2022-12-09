@@ -1033,3 +1033,21 @@ html,scripting,asp/jsp
 
 
 6 rows selected.
+
+select name ,round((sysdate-DJ)) as datediff from students;
+
+NAME                             DATEDIFF
+------------------------------ ----------
+george micheal                        698
+micheal douglas                       697
+andy roberts                          697
+malcom marshall                       692
+vivan richards                        692
+chirs evert                           694
+ivan lendal                           693
+george micheal                        648
+richard marx                          612
+tina turner                           612
+jody foster                           611
+
+11 rows selected.
