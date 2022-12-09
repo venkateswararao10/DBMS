@@ -1110,3 +1110,18 @@ ROUND(FEE,-3)
        154000
 
 6 rows selected.
+
+select name||'  '||qual from faculty;
+
+NAME||''||QUAL
+--------------------------------------------------------------
+george koch  ms computer science
+dan appleman  cs and ee graduate
+herbert schildt  ms computer science
+david hunter  ms electronics
+stephen walther  ph.d. in philosophy
+kevin loney  ms electronics
+jamie jaworski  bachelor of electrical
+jason couchman  ocp dba
+
+8 rows selected.
