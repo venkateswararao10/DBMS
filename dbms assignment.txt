@@ -1189,3 +1189,16 @@ c language
 
 xml   xml programming                        12     154000
 html,scripting,asp/jsp
+
+select substr(ccode,1,2) as ccodefirst2letters from courses ;
+
+CC
+--
+or
+vb
+c
+as
+ja
+xm
+
+6 rows selected.
