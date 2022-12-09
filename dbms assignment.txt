@@ -1051,3 +1051,30 @@ tina turner                           612
 jody foster                           611
 
 11 rows selected.
+
+SQL> select s.name ,s.dj,p.dp from students s inner join payments p on s.rollno=p.rollno ;
+
+NAME                           DJ        DP
+------------------------------ --------- ---------
+george micheal                 10-JAN-21 10-JAN-21
+micheal douglas                11-JAN-21 11-JAN-21
+micheal douglas                11-JAN-21 17-JAN-21
+andy roberts                   11-JAN-21 13-JAN-21
+andy roberts                   11-JAN-21 20-JAN-21
+malcom marshall                16-JAN-21 16-JAN-21
+malcom marshall                16-JAN-21 30-JAN-21
+
+7 rows selected.
+
+SQL> select s.name ,s.dj,p.dp from students s inner join payments p on s.rollno=p.rollno where to_number(dp-dj)<=10;
+
+NAME                           DJ        DP
+------------------------------ --------- ---------
+george micheal                 10-JAN-21 10-JAN-21
+micheal douglas                11-JAN-21 11-JAN-21
+micheal douglas                11-JAN-21 17-JAN-21
+andy roberts                   11-JAN-21 13-JAN-21
+andy roberts                   11-JAN-21 20-JAN-21
+malcom marshall                16-JAN-21 16-JAN-21
+
+6 rows selected.
