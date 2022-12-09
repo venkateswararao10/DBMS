@@ -1078,3 +1078,22 @@ andy roberts                   11-JAN-21 20-JAN-21
 malcom marshall                16-JAN-21 16-JAN-21
 
 6 rows selected.
+
+SQL> select * from  payments where to_number(sysdate-dp)=3;
+
+no rows selected
+
+SQL> select * from  payments where to_number(sysdate-dp)=600;
+
+no rows selected
+
+SQL> select * from  payments where to_number(sysdate-dp)<=650;
+
+no rows selected
+
+SQL> select * from  payments where to_number(sysdate-dp)<=690;
+
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+         4 30-JAN-21       2000
