@@ -1174,3 +1174,18 @@ PREREQUISITE
 --------------------------------------------------------------------------------
 java  java language                          12     254500
 c language
+
+select * from courses where instr(name,'g',8)>0;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+c     c programming                          12     203500
+computer awareness
+
+java  java language                          12     254500
+c language
+
+xml   xml programming                        12     154000
+html,scripting,asp/jsp
