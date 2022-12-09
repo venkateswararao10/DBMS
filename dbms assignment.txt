@@ -961,3 +961,75 @@ html,scripting,asp/jsp
 
 
 6 rows selected.
+
+ update courses set fee=6000,duration = 30  where ccode='asp';
+
+1 row updated.
+
+SQL> select * from courses;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+ora   oracle database                        12     254500
+windows
+
+vbnet vb.net                                 12     305500
+windows and programming
+
+c     c programming                          12     203500
+computer awareness
+
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+asp   asp.net                                30       6000
+internet and programming
+
+java  java language                          12     254500
+c language
+
+xml   xml programming                        12     154000
+html,scripting,asp/jsp
+
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from courses;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+ora   oracle database                        12     254500
+windows
+
+vbnet vb.net                                 12     305500
+windows and programming
+
+c     c programming                          12     203500
+computer awareness
+
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+asp   asp.net                                12     255500
+internet and programming
+
+java  java language                          12     254500
+c language
+
+xml   xml programming                        12     154000
+html,scripting,asp/jsp
+
+
+6 rows selected.
