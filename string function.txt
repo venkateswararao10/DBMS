@@ -17,6 +17,7 @@ select upper(city) from persons;
 select initcap(lastname) from persons;
 select length(city) from persons;
 select concat(address,city)as con from persons;
+select address||' '||city as con from persons;
 select substr(firstname,2,4) from persons;
 select lpad(city,20,'&') from persons;
 select rpad(city,20,'^') from persons;
