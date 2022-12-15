@@ -163,3 +163,77 @@ b6    vbnet da    12-JUL-21                    1
 b7    ora   jc    15-AUG-21                    2
 
 7 rows selected.
+
+q4 ans:
+
+SQL> select * from batches;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b2    asp   da    15-JAN-21 05-MAR-21          2
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
+
+7 rows selected.
+
+SQL> update batches set stdate=add_months(stdate,-24),enddate=add_months(stdate,-24)  where enddate is not null;
+
+5 rows updated.
+
+SQL> select * from batches;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-19 12-JAN-19          1
+b2    asp   da    15-JAN-19 15-JAN-19          2
+b3    c     hs    20-JAN-19 20-JAN-19          3
+b4    xml   dh    02-MAR-19 02-MAR-19          3
+b5    java  hs    05-APR-19 05-APR-19          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
+
+7 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> update batches set stdate=add_months(stdate,-24);
+
+7 rows updated.
+
+SQL> select * from batches;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-19 20-FEB-21          1
+b2    asp   da    15-JAN-19 05-MAR-21          2
+b3    c     hs    20-JAN-19 27-FEB-21          3
+b4    xml   dh    02-MAR-19 30-MAR-21          3
+b5    java  hs    05-APR-19 10-MAY-21          1
+b6    vbnet da    12-JUL-19                    1
+b7    ora   jc    15-AUG-19                    2
+
+7 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> update batches set enddate=add_months(stdate,-24) where enddate is not null;
+update batches set enddate=add_months(stdate,-24) where enddate is not null
+*
+ERROR at line 1:
+ORA-02290: check constraint (SYSTEM.CHKDATE) violated
+
+
+SQL> update batches set enddate=add_months(enddate,-24) where enddate is not null;
+update batches set enddate=add_months(enddate,-24) where enddate is not null
+*
+ERROR at line 1:
+ORA-02290: check constraint (SYSTEM.CHKDATE) violated
+
