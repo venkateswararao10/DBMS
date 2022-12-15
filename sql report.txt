@@ -1,0 +1,34 @@
+SQL> show pagesize
+pagesize 14
+SQL> show numformat
+numformat ""
+SQL> show serveroutput
+serveroutput OFF
+SQL> show linesize
+linesize 80
+SQL> show termout
+termout ON
+SQL> show pause
+PAUSE is OFF
+SQL> show feedback
+FEEDBACK ON for 6 or more rows
+SQL> show autocommit
+autocommit OFF
+SQL> set linesize 132
+SQL> select * from students;
+
+    ROLLNO BCODE NAME                           G DJ        PHONE      EMAIL
+---------- ----- ------------------------------ - --------- ---------- ------------------------------
+         1 b1    george micheal                 m 10-JAN-21 488333     gm@yahoo.com
+         2 b1    micheal douglas                m 11-JAN-21 348333     md@gmail.com
+         3 b2    andy roberts                   m 11-JAN-21 433554     ar@yahoo.com
+         4 b2    malcom marshall                m 16-JAN-21 653345     mm@usa.net
+         5 b2    vivan richards                 m 16-JAN-21 641238     vr@yahoo.com
+         6 b3    chirs evert                    f 14-JAN-21            ce@yahoo.com
+         7 b3    ivan lendal                    m 15-JAN-21 431212     il@gmail.com
+         8 b4    george micheal                 m 01-MAR-21 488333     gm@gmail.com
+         9 b5    richard marx                   m 06-APR-21 876567     rm@gmail.com
+        10 b5    tina turner                    f 06-APR-21 565678     tinat@gmail.com
+        11 b5    jody foster                    f 07-APR-21 234344     jody@hotmail.com
+
+11 rows selected.
