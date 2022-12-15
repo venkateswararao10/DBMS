@@ -1,0 +1,37 @@
+insert update and delete
+q3 ans:
+SQL> update batches set faccode=(select faccode from batches where bcode='b1') where bcode='b7';
+
+1 row updated.
+
+SQL> select * from batches;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b2    asp   da    15-JAN-21 05-MAR-21          2
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   gk    15-AUG-21                    2
+
+7 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from batches;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b2    asp   da    15-JAN-21 05-MAR-21          2
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
+
+7 rows selected.
