@@ -1,5 +1,81 @@
 insert update and delete
+
 q1 ans:
+
+SQL> update courses set fee=fee+10000 where ccode in (select ccode from batches group by ccode having count(bcode)=2 );
+
+1 row updated.
+
+SQL> select * from courses;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+ora   oracle database                        12     264500
+windows
+
+vbnet vb.net                                 12     305500
+windows and programming
+
+c     c programming                          12     203500
+computer awareness
+
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+asp   asp.net                                12     255500
+internet and programming
+
+java  java language                          12     254500
+c language
+
+xml   xml programming                        12     154000
+html,scripting,asp/jsp
+
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from courses;
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+ora   oracle database                        12     254500
+windows
+
+vbnet vb.net                                 12     305500
+windows and programming
+
+c     c programming                          12     203500
+computer awareness
+
+
+CCODE NAME                             DURATION        FEE
+----- ------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+asp   asp.net                                12     255500
+internet and programming
+
+java  java language                          12     254500
+c language
+
+xml   xml programming                        12     154000
+html,scripting,asp/jsp
+
+
+6 rows selected.
+
+
+q2 ans:
 SQL> delete from batches where bcode not in (select bcode from students);
 
 2 rows deleted.
