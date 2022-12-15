@@ -1,5 +1,20 @@
 insert update and delete
 
+
+select to_date((to_char(stdate,'dd-mm')||'-'||'2019'),'dd-mm-yyyy') from batches;
+
+TO_DATE((
+---------
+12-JAN-19
+15-JAN-19
+20-JAN-19
+02-MAR-19
+05-APR-19
+12-JUL-19
+15-AUG-19
+
+7 rows selected.
+
 q1 ans:
 
 SQL> update courses set fee=fee+10000 where ccode in (select ccode from batches group by ccode having count(bcode)=2 );
