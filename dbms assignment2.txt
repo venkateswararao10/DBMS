@@ -320,3 +320,17 @@ SQL> rollback;
 Rollback complete.
 
 SQL>
+
+group by having aggregate
+
+q2 ans:
+
+SQL> select count(rollno),bcode from students group by(bcode) order by bcode;
+
+COUNT(ROLLNO) BCODE
+------------- -----
+            2 b1
+            3 b2
+            2 b3
+            1 b4
+            3 b5
