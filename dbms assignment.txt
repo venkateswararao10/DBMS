@@ -1251,4 +1251,22 @@ SQL> select * from students where lower(to_char(dj,'mon-yyyy'))='apr-2021';
         10 b5    tina turner                    f 06-APR-21 565678     tinat@gmail.com
         11 b5    jody foster                    f 07-APR-21 234344     jody@hotmail.com
 
+q11 ans:
+
+ select faccode,ccode,decode(grade,'A','very good','B','good','C','average','unknown') from course_faculty;
+
+FACCO CCODE DECODE(GR
+----- ----- ---------
+gk    ora   very good
+jc    ora   very good
+kl    ora   very good
+da    vbnet very good
+sw    asp   very good
+da    asp   good
+hs    c     very good
+dh    xml   very good
+jj    java  very good
+hs    java  good
+jj    c     very good
+jj    vbnet good
 
