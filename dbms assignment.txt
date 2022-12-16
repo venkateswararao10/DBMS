@@ -1219,6 +1219,8 @@ jasonjason couchmancouchman
 
 8 rows selected.
 
+q8 ans:
+
 SQL> select * from payments where lower(to_char(dp,'mon'))='jan';
 
     ROLLNO DP            AMOUNT
@@ -1236,5 +1238,17 @@ SQL> select * from payments where lower(to_char(dp,'mon'))='jan';
 SQL> select * from payments where lower(to_char(dp,'mon'))='apr';
 
 no rows selected
+q9 ans:
+SQL> select * from students where lower(to_char(dj,'mon-yyyy'))='apr-2018';
+
+no rows selected
+
+SQL> select * from students where lower(to_char(dj,'mon-yyyy'))='apr-2021';
+
+    ROLLNO BCODE NAME                           G DJ        PHONE      EMAIL
+---------- ----- ------------------------------ - --------- ---------- ------------------------------
+         9 b5    richard marx                   m 06-APR-21 876567     rm@gmail.com
+        10 b5    tina turner                    f 06-APR-21 565678     tinat@gmail.com
+        11 b5    jody foster                    f 07-APR-21 234344     jody@hotmail.com
 
 
