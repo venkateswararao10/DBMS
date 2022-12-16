@@ -1270,3 +1270,17 @@ hs    java  good
 jj    c     very good
 jj    vbnet good
 
+q12 ans:
+
+select ccode,name,fee,prerequisite ,fee*0.1 as discount from courses where fee>=500;
+
+CCODE NAME                                  FEE PREREQUISITE                                                                                           DISCOUNT
+----- ------------------------------ ---------- ---------------------------------------------------------------------------------------------------- ----------
+ora   oracle database                    254500 windows                                                                                                   25450
+vbnet vb.net                             305500 windows and programming                                                                                   30550
+c     c programming                      203500 computer awareness                                                                                        20350
+asp   asp.net                            255500 internet and programming                                                                                  25550
+java  java language                      254500 c language                                                                                                25450
+xml   xml programming                    154000 html,scripting,asp/jsp                                                                                    15400
+
+6 rows selected.
