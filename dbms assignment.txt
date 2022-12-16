@@ -1284,3 +1284,31 @@ java  java language                      254500 c language                      
 xml   xml programming                    154000 html,scripting,asp/jsp                                                                                    15400
 
 6 rows selected.
+
+q13 ans:
+select bcode,stdate,enddate-stdate as noofdays,nvl2(enddate,'completed','running')as statusofbatch from batches ;
+
+BCODE STDATE      NOOFDAYS STATUSOFB
+----- --------- ---------- ---------
+b1    12-JAN-21         39 completed
+b2    15-JAN-21         49 completed
+b3    20-JAN-21         38 completed
+b4    02-MAR-21         28 completed
+b5    05-APR-21         35 completed
+b6    12-JUL-21            running
+b7    15-AUG-21            running
+
+7 rows selected.
+SQL> select * from batches ;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b2    asp   da    15-JAN-21 05-MAR-21          2
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
+
+7 rows selected.
