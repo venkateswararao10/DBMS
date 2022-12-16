@@ -1219,7 +1219,7 @@ jasonjason couchmancouchman
 
 8 rows selected.
 
- select * from payments where substr(to_char(dp),4,3)='JAN';
+SQL> select * from payments where lower(to_char(dp,'mon'))='jan';
 
     ROLLNO DP            AMOUNT
 ---------- --------- ----------
@@ -1233,6 +1233,8 @@ jasonjason couchmancouchman
 
 7 rows selected.
 
-SQL> select * from payments where substr(to_char(dp),4,3)='APR';
+SQL> select * from payments where lower(to_char(dp,'mon'))='apr';
 
 no rows selected
+
+
