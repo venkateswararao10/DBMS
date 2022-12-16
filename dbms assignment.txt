@@ -1312,3 +1312,18 @@ b6    vbnet da    12-JUL-21                    1
 b7    ora   jc    15-AUG-21                    2
 
 7 rows selected.
+
+q14 ans:
+
+select rpad(name,12,'.') from courses;
+
+RPAD(NAME,12
+------------
+oracle datab
+vb.net......
+c programmin
+asp.net.....
+java languag
+xml programm
+
+6 rows selected.
