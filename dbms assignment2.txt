@@ -489,3 +489,65 @@ b4    xml   dh    02-MAR-21 30-MAR-21          3
 b5    java  hs    05-APR-21 10-MAY-21          1
 b6    vbnet da    12-JUL-21                    1
 b7    ora   jc    15-AUG-21                    2
+
+q4 ans:
+
+ select b.*,c.* from courses c inner join batches b on b.ccode=c.ccode order by(c.ccode);
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING CCODE
+----- ----- ----- --------- --------- ---------- -----
+NAME                             DURATION        FEE
+------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+b2    asp   da    15-JAN-21 05-MAR-21          2 asp
+asp.net                                12     255500
+internet and programming
+
+b3    c     hs    20-JAN-21 27-FEB-21          3 c
+c programming                          12     203500
+computer awareness
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING CCODE
+----- ----- ----- --------- --------- ---------- -----
+NAME                             DURATION        FEE
+------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+
+b5    java  hs    05-APR-21 10-MAY-21          1 java
+java language                          12     254500
+c language
+
+b1    ora   gk    12-JAN-21 20-FEB-21          1 ora
+oracle database                        12     254500
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING CCODE
+----- ----- ----- --------- --------- ---------- -----
+NAME                             DURATION        FEE
+------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+windows
+
+b7    ora   jc    15-AUG-21                    2 ora
+oracle database                        12     254500
+windows
+
+b6    vbnet da    12-JUL-21                    1 vbnet
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING CCODE
+----- ----- ----- --------- --------- ---------- -----
+NAME                             DURATION        FEE
+------------------------------ ---------- ----------
+PREREQUISITE
+--------------------------------------------------------------------------------
+vb.net                                 12     305500
+windows and programming
+
+b4    xml   dh    02-MAR-21 30-MAR-21          3 xml
+xml programming                        12     154000
+html,scripting,asp/jsp
+
+
+7 rows selected.
