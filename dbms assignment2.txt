@@ -602,3 +602,17 @@ extensively worked with com
 
 jc    jason couchman                 ocp dba
 published articles on oracle
+
+q4 ans:
+
+ select * from faculty where faccode in (select faccode from batches where ccode ='ora');
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+gk    george koch                    ms computer science
+15 years with databases
+
+jc    jason couchman                 ocp dba
+published articles on oracle
