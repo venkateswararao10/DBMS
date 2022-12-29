@@ -551,3 +551,20 @@ html,scripting,asp/jsp
 
 
 7 rows selected.
+
+nested queries
+
+q1 ans:
+
+ select * from students where rollno in (select rollno from payments where dp=sysdate);
+
+no rows selected
+
+SQL> select * from students where rollno in (select rollno from payments where dp='10-jan-2021');
+
+    ROLLNO BCODE NAME                           G DJ        PHONE
+---------- ----- ------------------------------ - --------- ----------
+EMAIL
+------------------------------
+         1 b1    george micheal                 m 10-JAN-21 488333
+gm@yahoo.com
