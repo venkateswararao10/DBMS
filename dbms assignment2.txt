@@ -480,3 +480,12 @@ b4    xml   dh    02-MAR-21 30-MAR-21          3
 b5    java  hs    05-APR-21 10-MAY-21          1
 b6    vbnet da    12-JUL-21                    1
 b7    ora   jc    15-AUG-21                    2
+
+ select * from batches where stdate >  (select stdate from batches where bcode='b3');
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
