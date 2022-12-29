@@ -392,3 +392,11 @@ COUNT(BCODE) CCODE
 SQL> select count(bcode),ccode from batches where months_between(sysdate,stdate)<3  group by ccode;
 
 no rows selected
+
+q9 ans:
+
+select ccode from batches where months_between(sysdate,stdate)<26 group by ccode having count(bcode)>1;
+
+CCODE
+-----
+ora
