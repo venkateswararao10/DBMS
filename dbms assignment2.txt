@@ -568,3 +568,15 @@ EMAIL
 ------------------------------
          1 b1    george micheal                 m 10-JAN-21 488333
 gm@yahoo.com
+
+q2 ans:
+
+ select * from batches where faccode =(select faccode from faculty where name='kevin loney');
+
+no rows selected
+
+SQL> select * from batches where faccode =(select faccode from faculty where name='george koch');
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
