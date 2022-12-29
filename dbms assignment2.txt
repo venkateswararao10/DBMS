@@ -580,3 +580,25 @@ SQL> select * from batches where faccode =(select faccode from faculty where nam
 BCODE CCODE FACCO STDATE    ENDDATE       TIMING
 ----- ----- ----- --------- --------- ----------
 b1    ora   gk    12-JAN-21 20-FEB-21          1
+
+q3 ans:
+
+select * from faculty where faccode in(select faccode from batches where months_between(sysdate,stdate)<=3);
+
+no rows selected
+
+SQL> select * from faculty where faccode in(select faccode from batches where months_between(sysdate,stdate)<=12);
+
+no rows selected
+
+SQL> select * from faculty where faccode in(select faccode from batches where months_between(sysdate,stdate)<=18);
+
+FACCO NAME                           QUAL
+----- ------------------------------ ------------------------------
+EXP
+--------------------------------------------------------------------------------
+da    dan appleman                   cs and ee graduate
+extensively worked with com
+
+jc    jason couchman                 ocp dba
+published articles on oracle
