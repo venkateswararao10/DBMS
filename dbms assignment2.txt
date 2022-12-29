@@ -345,3 +345,31 @@ SUM(AMOUNT)     ROLLNO
        4500          2
        5000          4
        5000          3
+q4 ans:
+SQL> select count(distinct rollno) from payments;
+
+COUNT(DISTINCTROLLNO)
+---------------------
+                    4
+                    
+q5 ans:
+
+SQL> select c.name,b.stdate from courses c natural join batches b;
+
+NAME                           STDATE
+------------------------------ ---------
+oracle database                12-JAN-21
+asp.net                        15-JAN-21
+c programming                  20-JAN-21
+xml programming                02-MAR-21
+java language                  05-APR-21
+vb.net                         12-JUL-21
+oracle database                15-AUG-21
+
+7 rows selected.
+
+SQL> select c.name,b.stdate from courses c natural join batches b where stdate =(select max(stdate) from batches);
+
+NAME                           STDATE
+------------------------------ ---------
+oracle database                15-AUG-21
