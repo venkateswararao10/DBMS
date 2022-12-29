@@ -426,3 +426,46 @@ b2    asp.net
 b3    c programming
 b4    xml programming
 b5    java language
+
+
+q2 ans:
+
+SQL> select b.*,c.name , f.name from batches b inner join courses c on b.ccode=c.ccode inner join faculty f on f.faccode=b.faccode;
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING NAME
+----- ----- ----- --------- --------- ---------- ------------------------------
+NAME
+------------------------------
+b1    ora   gk    12-JAN-21 20-FEB-21          1 oracle database
+george koch
+
+b2    asp   da    15-JAN-21 05-MAR-21          2 asp.net
+dan appleman
+
+b3    c     hs    20-JAN-21 27-FEB-21          3 c programming
+herbert schildt
+
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING NAME
+----- ----- ----- --------- --------- ---------- ------------------------------
+NAME
+------------------------------
+b4    xml   dh    02-MAR-21 30-MAR-21          3 xml programming
+david hunter
+
+b5    java  hs    05-APR-21 10-MAY-21          1 java language
+herbert schildt
+
+b6    vbnet da    12-JUL-21                    1 vb.net
+dan appleman
+
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING NAME
+----- ----- ----- --------- --------- ---------- ------------------------------
+NAME
+------------------------------
+b7    ora   jc    15-AUG-21                    2 oracle database
+jason couchman
+
+
+7 rows selected.
