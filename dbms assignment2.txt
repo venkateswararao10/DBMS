@@ -400,3 +400,15 @@ select ccode from batches where months_between(sysdate,stdate)<26 group by ccode
 CCODE
 -----
 ora
+
+q10 ans:
+
+ select count(ccode),faccode from batches group by faccode order by count(ccode)desc;
+
+COUNT(CCODE) FACCO
+------------ -----
+           2 da
+           2 hs
+           1 jc
+           1 gk
+           1 dh
