@@ -412,3 +412,17 @@ COUNT(CCODE) FACCO
            1 jc
            1 gk
            1 dh
+
+
+join and set operations
+
+q1 ans:
+select b.bcode,c.name from batches b natural join courses c where enddate is not null and months_between(enddate,sysdate)<0;
+
+BCODE NAME
+----- ------------------------------
+b1    oracle database
+b2    asp.net
+b3    c programming
+b4    xml programming
+b5    java language
