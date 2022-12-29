@@ -616,3 +616,28 @@ gk    george koch                    ms computer science
 
 jc    jason couchman                 ocp dba
 published articles on oracle
+
+q5 ans:
+
+select * from batches where ccode in(select ccode from courses where fee>5000) or faccode in(select faccode from faculty where qual like'ms%');
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b2    asp   da    15-JAN-21 05-MAR-21          2
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
+b6    vbnet da    12-JUL-21                    1
+b7    ora   jc    15-AUG-21                    2
+
+7 rows selected.
+
+SQL> select * from batches where ccode in(select ccode from courses where fee>500000) or faccode in(select faccode from faculty where qual like'ms%');
+
+BCODE CCODE FACCO STDATE    ENDDATE       TIMING
+----- ----- ----- --------- --------- ----------
+b1    ora   gk    12-JAN-21 20-FEB-21          1
+b3    c     hs    20-JAN-21 27-FEB-21          3
+b4    xml   dh    02-MAR-21 30-MAR-21          3
+b5    java  hs    05-APR-21 10-MAY-21          1
