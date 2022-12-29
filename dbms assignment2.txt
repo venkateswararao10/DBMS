@@ -373,3 +373,22 @@ SQL> select c.name,b.stdate from courses c natural join batches b where stdate =
 NAME                           STDATE
 ------------------------------ ---------
 oracle database                15-AUG-21
+
+q6 ans:
+
+SQL> select count(bcode),ccode from batches where months_between(sysdate,stdate)>3  group by ccode;
+
+COUNT(BCODE) CCODE
+------------ -----
+           2 ora
+           1 xml
+           1 asp
+           1 java
+           1 c
+           1 vbnet
+
+6 rows selected.
+
+SQL> select count(bcode),ccode from batches where months_between(sysdate,stdate)<3  group by ccode;
+
+no rows selected
