@@ -1,0 +1,2820 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Jan 23 22:32:54 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect
+Enter user-name: VENKy@2003
+Enter password:
+ERROR:
+ORA-12543: TNS:destination host unreachable
+
+
+SQL> connect system
+Enter password:
+ERROR:
+ORA-12543: TNS:destination host unreachable
+
+
+SQL> connect system
+Enter password:
+Connected.
+SQL>  create table courses(
+  2      ccode varchar(5),
+  3      name varchar(30),
+  4      duration number(3),
+  5      fee number(5),
+  6      prerequisite varchar(100),
+  7     constraint pkccode primary key(ccode),
+  8    constraint chkfee check(fee >= 0),
+  9     constraint chkduration check(duration >=0));
+
+Table created.
+
+SQL> create table faculty(
+  2      faccode varchar(5),
+  3      name varchar(30),
+  4      qual varchar(30),
+  5      exp varchar(100),
+  6      constraint pkfaccode primary key(faccode));
+
+Table created.
+
+SQL> create table course_faculty(
+  2       faccode varchar(5),
+  3       ccode varchar(5),
+  4       grade char(1),
+  5       constraint fkfaccode foreign key(faccode) references faculty(faccode),
+  6       constraint chkgrade check(grade in ('A','B','C')),
+  7       constraint fkccode foreign key(ccode) references courses(ccode));
+
+Table created.
+
+SQL>
+SQL> create table batches(
+  2          bcode varchar(5),
+  3         ccode varchar(5),
+  4          faccode varchar(5),
+  5         stdate date,
+  6         enddate date,
+  7          timing number(1),
+  8        constraint pkbcode primary key(bcode),
+  9        constraint fkccodebatches foreign key (ccode) references courses(ccode),
+ 10       constraint fkfaccodebatches foreign key(faccode) references faculty(faccode),
+ 11       constraint chkdate check(enddate>=stdate),
+ 12       constraint chktiming check(timing in (1,2,3))
+ 13       );
+
+Table created.
+
+SQL> create table students(
+  2         rollno number(5),
+  3          bcode varchar(5),
+  4          name varchar(30),
+  5          gender char(1),
+  6          dj date,
+  7         phone varchar(10),
+  8         email varchar(30),
+  9         constraint pkrollno primary key(rollno),
+ 10       constraint fkbcode foreign key (bcode) references batches(bcode),
+ 11       constraint chgender check(gender in ('m','f'))
+ 12        );
+
+Table created.
+
+SQL>
+SQL> create table payments(
+  2         rollno number(5),
+  3          dp date,
+  4          amount number(5),
+  5          constraint pkrollnodp primary key(rollno,dp),
+  6         constraint chkamount check(amount>=25)
+  7          );
+
+Table created.
+
+SQL>
+SQL> alter table courses
+  2         modify fee number(6);
+
+Table altered.
+
+SQL>
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('ora','oracle database',254500,'windows');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('vbnet','vb.net',305500,'windows and programming');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('c','c programming',203500,'computer awareness');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('asp','asp.net',255500,'internet and programming');
+
+1 row created.
+
+SQL> insert into courses(ccode,name,fee,prerequisite) values('java','java language',254500,'c language');
+
+1 row created.
+
+SQL>  insert into courses(ccode,name,fee,prerequisite) values('xml','xml programming',154000,'html,scripting,asp/jsp');
+
+1 row created.
+
+SQL>  insert into faculty values('gk','george koch','ms computer science','15 years with databases');
+
+1 row created.
+
+SQL>  insert into faculty values('da','dan appleman','cs and ee graduate','extensively worked with com');
+
+1 row created.
+
+SQL>  insert into faculty values('hs','herbert schildt','ms computer science','author of several books');
+
+1 row created.
+
+SQL>  insert into faculty values('dh','david hunter','ms electronics','extensively worked with internet technologies');
+
+1 row created.
+
+SQL>  insert into faculty values('sw','stephen walther','ph.d. in philosophy','extensively worked with internet technologies');
+
+1 row created.
+
+SQL> insert into faculty values('kl','kevin loney','ms electronics','specialized in oracle dba');
+
+1 row created.
+
+SQL> insert into faculty values('jj','jamie jaworski','bachelor of electrical','developed programs for us defence department');
+
+1 row created.
+
+SQL> insert into faculty values('jc','jason couchman','ocp dba','published articles on oracle');
+
+1 row created.
+
+SQL> insert into course_faculty values('gk','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jc','ora','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('kl','ora','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('da','vbnet','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('sw','asp','A');
+
+1 row created.
+
+SQL>  insert into course_faculty values('da','asp','B');
+
+1 row created.
+
+SQL>  insert into course_faculty values('hs','c','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('dh','xml','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','java','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('hs','java','B');
+
+1 row created.
+
+SQL>  insert into course_faculty values('jj','c','A');
+
+1 row created.
+
+SQL> insert into course_faculty values('jj','vbnet','B');
+
+1 row created.
+
+SQL> insert into batches values('b1','ora','gk','12-jan-2021','20-feb-2021',1);
+
+1 row created.
+
+SQL> insert into batches values('b2','asp','da','15-jan-2021','5-mar-2021',2);
+
+1 row created.
+
+SQL> insert into batches values('b3','c','hs','20-jan-2021','27-feb-2021',3);
+
+1 row created.
+
+SQL>  insert into batches values('b4','xml','dh','02-mar-2021','30-mar-2021',3);
+
+1 row created.
+
+SQL>  insert into batches values('b5','java','hs','05-apr-2021','10-may-2021',1);
+
+1 row created.
+
+SQL> insert into batches(bcode,ccode,faccode,stdate,timing) values('b6','vbnet','da','12-jul-2021',1);
+
+1 row created.
+
+SQL>  insert into batches(bcode,ccode,faccode,stdate,timing) values('b7','ora','jc','15-aug-2021',2);
+
+1 row created.
+
+SQL> insert into students values(1,'b1','george micheal','m','10-jan-2021','488333','gm@yahoo.com');
+
+1 row created.
+
+SQL>  insert into students values(2,'b1','micheal douglas','m','11-jan-2021','348333','md@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(3,'b2','andy roberts','m','11-jan-2021','433554','ar@yahoo.com');
+
+1 row created.
+
+SQL> insert into students values(4,'b2','malcom marshall','m','16-jan-2021','653345','mm@usa.net');
+
+1 row created.
+
+SQL>  insert into students values(5,'b2','vivan richards','m','16-jan-2021','641238','vr@yahoo.com');
+
+1 row created.
+
+SQL> insert into students(rollno,bcode,name,gender,dj,email) values(6,'b3','chirs evert','f','14-jan-2021','ce@yahoo.com');
+
+1 row created.
+
+SQL> insert into students values(7,'b3','ivan lendal','m','15-jan-2021','431212','il@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(8,'b4','george micheal','m','1-mar-2021','488333','gm@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(9,'b5','richard marx','m','6-apr-2021','876567','rm@gmail.com');
+
+1 row created.
+
+SQL>  insert into students values(10,'b5','tina turner','f','6-apr-2021','565678','tinat@gmail.com');
+
+1 row created.
+
+SQL> insert into students values(11,'b5','jody foster','f','7-apr-2021','234344','jody@hotmail.com');
+
+1 row created.
+
+SQL> insert into payments values(1,'10-jan-2021',4500);
+
+1 row created.
+
+SQL>  insert into payments values(2,'11-jan-2021',3500);
+
+1 row created.
+
+SQL> insert into payments values(2,'17-jan-2021',1000);
+
+1 row created.
+
+SQL> insert into payments values(3,'13-jan-2021',2000);
+
+1 row created.
+
+SQL> insert into payments values(3,'20-jan-2021',3000);
+
+1 row created.
+
+SQL> insert into payments values(4,'16-jan-2021',3000);
+
+1 row created.
+
+SQL> insert into payments values(4,'30-jan-2021',2000);
+
+1 row created.
+
+SQL> set ttitle "payments report"
+SP2-0158: unknown SET option "ttitle"
+SQL> set ttitle "payments report";
+SP2-0158: unknown SET option "ttitle"
+SQL> ttitle  center "payments report";
+SQL> select * from payments;
+
+                                 payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+         2 11-JAN-21       3500
+         2 17-JAN-21       1000
+         3 13-JAN-21       2000
+         3 20-JAN-21       3000
+         4 16-JAN-21       3000
+         4 30-JAN-21       2000
+
+7 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p where b.bcode=s.bcode and s.rollno=p.rollno;
+
+                                 payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP
+----- ----- ---------- ------------------------------ --------- ---------
+    AMOUNT
+----------
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21
+      3500
+
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21
+      1000
+
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21
+      4500
+
+                                 payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP
+----- ----- ---------- ------------------------------ --------- ---------
+    AMOUNT
+----------
+
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21
+      3000
+
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21
+      2000
+
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21
+
+                                 payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP
+----- ----- ---------- ------------------------------ --------- ---------
+    AMOUNT
+----------
+      2000
+
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21
+      3000
+
+
+7 rows selected.
+
+SQL> set linesize 500;
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p where b.bcode=s.bcode and s.rollno=p.rollno;
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+
+7 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p;
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b1    ora            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b1    ora            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b1    ora            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b1    ora            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b1    ora            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b1    ora            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b1    ora            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b1    ora            9 richard marx                   06-APR-21 10-JAN-21       4500
+b1    ora           10 tina turner                    06-APR-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora           11 jody foster                    07-APR-21 10-JAN-21       4500
+b2    asp            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b2    asp            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b2    asp            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b2    asp            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b2    asp            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b2    asp            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b2    asp            9 richard marx                   06-APR-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp           10 tina turner                    06-APR-21 10-JAN-21       4500
+b2    asp           11 jody foster                    07-APR-21 10-JAN-21       4500
+b3    c              1 george micheal                 10-JAN-21 10-JAN-21       4500
+b3    c              2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b3    c              3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b3    c              4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b3    c              5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b3    c              6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b3    c              7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b3    c              8 george micheal                 01-MAR-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              9 richard marx                   06-APR-21 10-JAN-21       4500
+b3    c             10 tina turner                    06-APR-21 10-JAN-21       4500
+b3    c             11 jody foster                    07-APR-21 10-JAN-21       4500
+b4    xml            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b4    xml            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b4    xml            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b4    xml            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b4    xml            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b4    xml            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b4    xml            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b4    xml            9 richard marx                   06-APR-21 10-JAN-21       4500
+b4    xml           10 tina turner                    06-APR-21 10-JAN-21       4500
+b4    xml           11 jody foster                    07-APR-21 10-JAN-21       4500
+b5    java           1 george micheal                 10-JAN-21 10-JAN-21       4500
+b5    java           2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b5    java           3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b5    java           4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b5    java           5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b5    java           6 chirs evert                    14-JAN-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b5    java           8 george micheal                 01-MAR-21 10-JAN-21       4500
+b5    java           9 richard marx                   06-APR-21 10-JAN-21       4500
+b5    java          10 tina turner                    06-APR-21 10-JAN-21       4500
+b5    java          11 jody foster                    07-APR-21 10-JAN-21       4500
+b6    vbnet          1 george micheal                 10-JAN-21 10-JAN-21       4500
+b6    vbnet          2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b6    vbnet          3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b6    vbnet          4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b6    vbnet          5 vivan richards                 16-JAN-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b6    vbnet          7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b6    vbnet          8 george micheal                 01-MAR-21 10-JAN-21       4500
+b6    vbnet          9 richard marx                   06-APR-21 10-JAN-21       4500
+b6    vbnet         10 tina turner                    06-APR-21 10-JAN-21       4500
+b6    vbnet         11 jody foster                    07-APR-21 10-JAN-21       4500
+b7    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b7    ora            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b7    ora            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b7    ora            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b7    ora            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b7    ora            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b7    ora            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b7    ora            9 richard marx                   06-APR-21 10-JAN-21       4500
+b7    ora           10 tina turner                    06-APR-21 10-JAN-21       4500
+b7    ora           11 jody foster                    07-APR-21 10-JAN-21       4500
+b1    ora            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b1    ora            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b1    ora            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b1    ora            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b1    ora            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b1    ora            9 richard marx                   06-APR-21 11-JAN-21       3500
+b1    ora           10 tina turner                    06-APR-21 11-JAN-21       3500
+b1    ora           11 jody foster                    07-APR-21 11-JAN-21       3500
+b2    asp            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b2    asp            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b2    asp            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b2    asp            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b2    asp            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b2    asp            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b2    asp            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b2    asp            9 richard marx                   06-APR-21 11-JAN-21       3500
+b2    asp           10 tina turner                    06-APR-21 11-JAN-21       3500
+b2    asp           11 jody foster                    07-APR-21 11-JAN-21       3500
+b3    c              1 george micheal                 10-JAN-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b3    c              3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b3    c              4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b3    c              5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b3    c              6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b3    c              7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b3    c              8 george micheal                 01-MAR-21 11-JAN-21       3500
+b3    c              9 richard marx                   06-APR-21 11-JAN-21       3500
+b3    c             10 tina turner                    06-APR-21 11-JAN-21       3500
+b3    c             11 jody foster                    07-APR-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b4    xml            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b4    xml            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b4    xml            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b4    xml            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b4    xml            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b4    xml            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b4    xml            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b4    xml            9 richard marx                   06-APR-21 11-JAN-21       3500
+b4    xml           10 tina turner                    06-APR-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml           11 jody foster                    07-APR-21 11-JAN-21       3500
+b5    java           1 george micheal                 10-JAN-21 11-JAN-21       3500
+b5    java           2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b5    java           3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b5    java           4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b5    java           5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b5    java           6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b5    java           7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b5    java           8 george micheal                 01-MAR-21 11-JAN-21       3500
+b5    java           9 richard marx                   06-APR-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java          10 tina turner                    06-APR-21 11-JAN-21       3500
+b5    java          11 jody foster                    07-APR-21 11-JAN-21       3500
+b6    vbnet          1 george micheal                 10-JAN-21 11-JAN-21       3500
+b6    vbnet          2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b6    vbnet          3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b6    vbnet          4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b6    vbnet          5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b6    vbnet          6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b6    vbnet          7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b6    vbnet          8 george micheal                 01-MAR-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          9 richard marx                   06-APR-21 11-JAN-21       3500
+b6    vbnet         10 tina turner                    06-APR-21 11-JAN-21       3500
+b6    vbnet         11 jody foster                    07-APR-21 11-JAN-21       3500
+b7    ora            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b7    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b7    ora            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b7    ora            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b7    ora            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b7    ora            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b7    ora            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b7    ora            9 richard marx                   06-APR-21 11-JAN-21       3500
+b7    ora           10 tina turner                    06-APR-21 11-JAN-21       3500
+b7    ora           11 jody foster                    07-APR-21 11-JAN-21       3500
+b1    ora            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b1    ora            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b1    ora            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b1    ora            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b1    ora            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b1    ora            9 richard marx                   06-APR-21 17-JAN-21       1000
+b1    ora           10 tina turner                    06-APR-21 17-JAN-21       1000
+b1    ora           11 jody foster                    07-APR-21 17-JAN-21       1000
+b2    asp            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b2    asp            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b2    asp            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b2    asp            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b2    asp            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b2    asp            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b2    asp            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b2    asp            9 richard marx                   06-APR-21 17-JAN-21       1000
+b2    asp           10 tina turner                    06-APR-21 17-JAN-21       1000
+b2    asp           11 jody foster                    07-APR-21 17-JAN-21       1000
+b3    c              1 george micheal                 10-JAN-21 17-JAN-21       1000
+b3    c              2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b3    c              3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b3    c              4 malcom marshall                16-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b3    c              6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b3    c              7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b3    c              8 george micheal                 01-MAR-21 17-JAN-21       1000
+b3    c              9 richard marx                   06-APR-21 17-JAN-21       1000
+b3    c             10 tina turner                    06-APR-21 17-JAN-21       1000
+b3    c             11 jody foster                    07-APR-21 17-JAN-21       1000
+b4    xml            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b4    xml            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b4    xml            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b4    xml            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b4    xml            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b4    xml            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b4    xml            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b4    xml            9 richard marx                   06-APR-21 17-JAN-21       1000
+b4    xml           10 tina turner                    06-APR-21 17-JAN-21       1000
+b4    xml           11 jody foster                    07-APR-21 17-JAN-21       1000
+b5    java           1 george micheal                 10-JAN-21 17-JAN-21       1000
+b5    java           2 micheal douglas                11-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b5    java           4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b5    java           5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b5    java           6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b5    java           7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b5    java           8 george micheal                 01-MAR-21 17-JAN-21       1000
+b5    java           9 richard marx                   06-APR-21 17-JAN-21       1000
+b5    java          10 tina turner                    06-APR-21 17-JAN-21       1000
+b5    java          11 jody foster                    07-APR-21 17-JAN-21       1000
+b6    vbnet          1 george micheal                 10-JAN-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b6    vbnet          3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b6    vbnet          4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b6    vbnet          5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b6    vbnet          6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b6    vbnet          7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b6    vbnet          8 george micheal                 01-MAR-21 17-JAN-21       1000
+b6    vbnet          9 richard marx                   06-APR-21 17-JAN-21       1000
+b6    vbnet         10 tina turner                    06-APR-21 17-JAN-21       1000
+b6    vbnet         11 jody foster                    07-APR-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b7    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b7    ora            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b7    ora            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b7    ora            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b7    ora            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b7    ora            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b7    ora            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b7    ora            9 richard marx                   06-APR-21 17-JAN-21       1000
+b7    ora           10 tina turner                    06-APR-21 17-JAN-21       1000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora           11 jody foster                    07-APR-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b1    ora            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b1    ora            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b1    ora            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b1    ora            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b1    ora            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b1    ora            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b1    ora            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b1    ora            9 richard marx                   06-APR-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora           10 tina turner                    06-APR-21 13-JAN-21       2000
+b1    ora           11 jody foster                    07-APR-21 13-JAN-21       2000
+b2    asp            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b2    asp            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b2    asp            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b2    asp            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b2    asp            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b2    asp            8 george micheal                 01-MAR-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            9 richard marx                   06-APR-21 13-JAN-21       2000
+b2    asp           10 tina turner                    06-APR-21 13-JAN-21       2000
+b2    asp           11 jody foster                    07-APR-21 13-JAN-21       2000
+b3    c              1 george micheal                 10-JAN-21 13-JAN-21       2000
+b3    c              2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b3    c              3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b3    c              4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b3    c              5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b3    c              6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b3    c              7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              8 george micheal                 01-MAR-21 13-JAN-21       2000
+b3    c              9 richard marx                   06-APR-21 13-JAN-21       2000
+b3    c             10 tina turner                    06-APR-21 13-JAN-21       2000
+b3    c             11 jody foster                    07-APR-21 13-JAN-21       2000
+b4    xml            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b4    xml            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b4    xml            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b4    xml            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b4    xml            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b4    xml            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b4    xml            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b4    xml            9 richard marx                   06-APR-21 13-JAN-21       2000
+b4    xml           10 tina turner                    06-APR-21 13-JAN-21       2000
+b4    xml           11 jody foster                    07-APR-21 13-JAN-21       2000
+b5    java           1 george micheal                 10-JAN-21 13-JAN-21       2000
+b5    java           2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b5    java           3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b5    java           4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b5    java           5 vivan richards                 16-JAN-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b5    java           7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b5    java           8 george micheal                 01-MAR-21 13-JAN-21       2000
+b5    java           9 richard marx                   06-APR-21 13-JAN-21       2000
+b5    java          10 tina turner                    06-APR-21 13-JAN-21       2000
+b5    java          11 jody foster                    07-APR-21 13-JAN-21       2000
+b6    vbnet          1 george micheal                 10-JAN-21 13-JAN-21       2000
+b6    vbnet          2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b6    vbnet          3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b6    vbnet          4 malcom marshall                16-JAN-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b6    vbnet          6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b6    vbnet          7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b6    vbnet          8 george micheal                 01-MAR-21 13-JAN-21       2000
+b6    vbnet          9 richard marx                   06-APR-21 13-JAN-21       2000
+b6    vbnet         10 tina turner                    06-APR-21 13-JAN-21       2000
+b6    vbnet         11 jody foster                    07-APR-21 13-JAN-21       2000
+b7    ora            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b7    ora            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b7    ora            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b7    ora            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b7    ora            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b7    ora            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b7    ora            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b7    ora            9 richard marx                   06-APR-21 13-JAN-21       2000
+b7    ora           10 tina turner                    06-APR-21 13-JAN-21       2000
+b7    ora           11 jody foster                    07-APR-21 13-JAN-21       2000
+b1    ora            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b1    ora            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b1    ora            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b1    ora            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b1    ora            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b1    ora            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b1    ora            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b1    ora            9 richard marx                   06-APR-21 20-JAN-21       3000
+b1    ora           10 tina turner                    06-APR-21 20-JAN-21       3000
+b1    ora           11 jody foster                    07-APR-21 20-JAN-21       3000
+b2    asp            1 george micheal                 10-JAN-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b2    asp            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b2    asp            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b2    asp            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b2    asp            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b2    asp            9 richard marx                   06-APR-21 20-JAN-21       3000
+b2    asp           10 tina turner                    06-APR-21 20-JAN-21       3000
+b2    asp           11 jody foster                    07-APR-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              1 george micheal                 10-JAN-21 20-JAN-21       3000
+b3    c              2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b3    c              3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b3    c              4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b3    c              5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b3    c              6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b3    c              7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b3    c              8 george micheal                 01-MAR-21 20-JAN-21       3000
+b3    c              9 richard marx                   06-APR-21 20-JAN-21       3000
+b3    c             10 tina turner                    06-APR-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c             11 jody foster                    07-APR-21 20-JAN-21       3000
+b4    xml            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b4    xml            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b4    xml            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b4    xml            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b4    xml            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b4    xml            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b4    xml            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b4    xml            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b4    xml            9 richard marx                   06-APR-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml           10 tina turner                    06-APR-21 20-JAN-21       3000
+b4    xml           11 jody foster                    07-APR-21 20-JAN-21       3000
+b5    java           1 george micheal                 10-JAN-21 20-JAN-21       3000
+b5    java           2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b5    java           3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b5    java           4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b5    java           5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b5    java           6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b5    java           7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b5    java           8 george micheal                 01-MAR-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           9 richard marx                   06-APR-21 20-JAN-21       3000
+b5    java          10 tina turner                    06-APR-21 20-JAN-21       3000
+b5    java          11 jody foster                    07-APR-21 20-JAN-21       3000
+b6    vbnet          1 george micheal                 10-JAN-21 20-JAN-21       3000
+b6    vbnet          2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b6    vbnet          3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b6    vbnet          4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b6    vbnet          5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b6    vbnet          6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b6    vbnet          7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          8 george micheal                 01-MAR-21 20-JAN-21       3000
+b6    vbnet          9 richard marx                   06-APR-21 20-JAN-21       3000
+b6    vbnet         10 tina turner                    06-APR-21 20-JAN-21       3000
+b6    vbnet         11 jody foster                    07-APR-21 20-JAN-21       3000
+b7    ora            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b7    ora            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b7    ora            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b7    ora            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b7    ora            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b7    ora            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b7    ora            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b7    ora            9 richard marx                   06-APR-21 20-JAN-21       3000
+b7    ora           10 tina turner                    06-APR-21 20-JAN-21       3000
+b7    ora           11 jody foster                    07-APR-21 20-JAN-21       3000
+b1    ora            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b1    ora            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b1    ora            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b1    ora            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b1    ora            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b1    ora            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b1    ora            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b1    ora            9 richard marx                   06-APR-21 16-JAN-21       3000
+b1    ora           10 tina turner                    06-APR-21 16-JAN-21       3000
+b1    ora           11 jody foster                    07-APR-21 16-JAN-21       3000
+b2    asp            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b2    asp            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b2    asp            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b2    asp            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b2    asp            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b2    asp            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b2    asp            9 richard marx                   06-APR-21 16-JAN-21       3000
+b2    asp           10 tina turner                    06-APR-21 16-JAN-21       3000
+b2    asp           11 jody foster                    07-APR-21 16-JAN-21       3000
+b3    c              1 george micheal                 10-JAN-21 16-JAN-21       3000
+b3    c              2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b3    c              3 andy roberts                   11-JAN-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b3    c              5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b3    c              6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b3    c              7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b3    c              8 george micheal                 01-MAR-21 16-JAN-21       3000
+b3    c              9 richard marx                   06-APR-21 16-JAN-21       3000
+b3    c             10 tina turner                    06-APR-21 16-JAN-21       3000
+b3    c             11 jody foster                    07-APR-21 16-JAN-21       3000
+b4    xml            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b4    xml            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b4    xml            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b4    xml            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b4    xml            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b4    xml            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b4    xml            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b4    xml            9 richard marx                   06-APR-21 16-JAN-21       3000
+b4    xml           10 tina turner                    06-APR-21 16-JAN-21       3000
+b4    xml           11 jody foster                    07-APR-21 16-JAN-21       3000
+b5    java           1 george micheal                 10-JAN-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b5    java           3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b5    java           4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b5    java           5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b5    java           6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b5    java           7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b5    java           8 george micheal                 01-MAR-21 16-JAN-21       3000
+b5    java           9 richard marx                   06-APR-21 16-JAN-21       3000
+b5    java          10 tina turner                    06-APR-21 16-JAN-21       3000
+b5    java          11 jody foster                    07-APR-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          1 george micheal                 10-JAN-21 16-JAN-21       3000
+b6    vbnet          2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b6    vbnet          3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b6    vbnet          4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b6    vbnet          5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b6    vbnet          6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b6    vbnet          7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b6    vbnet          8 george micheal                 01-MAR-21 16-JAN-21       3000
+b6    vbnet          9 richard marx                   06-APR-21 16-JAN-21       3000
+b6    vbnet         10 tina turner                    06-APR-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet         11 jody foster                    07-APR-21 16-JAN-21       3000
+b7    ora            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b7    ora            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b7    ora            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b7    ora            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b7    ora            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b7    ora            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b7    ora            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b7    ora            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b7    ora            9 richard marx                   06-APR-21 16-JAN-21       3000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora           10 tina turner                    06-APR-21 16-JAN-21       3000
+b7    ora           11 jody foster                    07-APR-21 16-JAN-21       3000
+b1    ora            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b1    ora            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b1    ora            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b1    ora            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b1    ora            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b1    ora            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b1    ora            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b1    ora            8 george micheal                 01-MAR-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            9 richard marx                   06-APR-21 30-JAN-21       2000
+b1    ora           10 tina turner                    06-APR-21 30-JAN-21       2000
+b1    ora           11 jody foster                    07-APR-21 30-JAN-21       2000
+b2    asp            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b2    asp            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b2    asp            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b2    asp            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b2    asp            9 richard marx                   06-APR-21 30-JAN-21       2000
+b2    asp           10 tina turner                    06-APR-21 30-JAN-21       2000
+b2    asp           11 jody foster                    07-APR-21 30-JAN-21       2000
+b3    c              1 george micheal                 10-JAN-21 30-JAN-21       2000
+b3    c              2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b3    c              3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b3    c              4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b3    c              5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b3    c              6 chirs evert                    14-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b3    c              8 george micheal                 01-MAR-21 30-JAN-21       2000
+b3    c              9 richard marx                   06-APR-21 30-JAN-21       2000
+b3    c             10 tina turner                    06-APR-21 30-JAN-21       2000
+b3    c             11 jody foster                    07-APR-21 30-JAN-21       2000
+b4    xml            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b4    xml            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b4    xml            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b4    xml            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b4    xml            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b4    xml            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b4    xml            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b4    xml            9 richard marx                   06-APR-21 30-JAN-21       2000
+b4    xml           10 tina turner                    06-APR-21 30-JAN-21       2000
+b4    xml           11 jody foster                    07-APR-21 30-JAN-21       2000
+b5    java           1 george micheal                 10-JAN-21 30-JAN-21       2000
+b5    java           2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b5    java           3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b5    java           4 malcom marshall                16-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b5    java           6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b5    java           7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b5    java           8 george micheal                 01-MAR-21 30-JAN-21       2000
+b5    java           9 richard marx                   06-APR-21 30-JAN-21       2000
+b5    java          10 tina turner                    06-APR-21 30-JAN-21       2000
+b5    java          11 jody foster                    07-APR-21 30-JAN-21       2000
+b6    vbnet          1 george micheal                 10-JAN-21 30-JAN-21       2000
+b6    vbnet          2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b6    vbnet          3 andy roberts                   11-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b6    vbnet          5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b6    vbnet          6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b6    vbnet          7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b6    vbnet          8 george micheal                 01-MAR-21 30-JAN-21       2000
+b6    vbnet          9 richard marx                   06-APR-21 30-JAN-21       2000
+b6    vbnet         10 tina turner                    06-APR-21 30-JAN-21       2000
+b6    vbnet         11 jody foster                    07-APR-21 30-JAN-21       2000
+b7    ora            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b7    ora            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b7    ora            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b7    ora            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b7    ora            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b7    ora            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b7    ora            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b7    ora            9 richard marx                   06-APR-21 30-JAN-21       2000
+b7    ora           10 tina turner                    06-APR-21 30-JAN-21       2000
+b7    ora           11 jody foster                    07-APR-21 30-JAN-21       2000
+
+539 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p where b.bcode=s.bcode and s.rollno=p.rollno;
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+
+7 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p where b.bcode=s.bcode and s.rollno=p.rollno group by b.bcode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p where b.bcode=s.bcode and s.rollno=p.rollno group by b.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno;
+
+
+           payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+
+7 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by bcode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by bcode
+                                                                                                                                                          *
+ERROR at line 1:
+ORA-00918: column ambiguously defined
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,s.rollno;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,s.rollno
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.code;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.code
+                                                                                                                                                                  *
+ERROR at line 1:
+ORA-00904: "B"."CODE": invalid identifier
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode
+                       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode
+                       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p;
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b1    ora            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b1    ora            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b1    ora            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b1    ora            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b1    ora            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b1    ora            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b1    ora            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b1    ora            9 richard marx                   06-APR-21 10-JAN-21       4500
+b1    ora           10 tina turner                    06-APR-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora           11 jody foster                    07-APR-21 10-JAN-21       4500
+b2    asp            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b2    asp            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b2    asp            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b2    asp            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b2    asp            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b2    asp            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b2    asp            9 richard marx                   06-APR-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp           10 tina turner                    06-APR-21 10-JAN-21       4500
+b2    asp           11 jody foster                    07-APR-21 10-JAN-21       4500
+b3    c              1 george micheal                 10-JAN-21 10-JAN-21       4500
+b3    c              2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b3    c              3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b3    c              4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b3    c              5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b3    c              6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b3    c              7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b3    c              8 george micheal                 01-MAR-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              9 richard marx                   06-APR-21 10-JAN-21       4500
+b3    c             10 tina turner                    06-APR-21 10-JAN-21       4500
+b3    c             11 jody foster                    07-APR-21 10-JAN-21       4500
+b4    xml            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b4    xml            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b4    xml            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b4    xml            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b4    xml            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b4    xml            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b4    xml            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b4    xml            9 richard marx                   06-APR-21 10-JAN-21       4500
+b4    xml           10 tina turner                    06-APR-21 10-JAN-21       4500
+b4    xml           11 jody foster                    07-APR-21 10-JAN-21       4500
+b5    java           1 george micheal                 10-JAN-21 10-JAN-21       4500
+b5    java           2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b5    java           3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b5    java           4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b5    java           5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b5    java           6 chirs evert                    14-JAN-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b5    java           8 george micheal                 01-MAR-21 10-JAN-21       4500
+b5    java           9 richard marx                   06-APR-21 10-JAN-21       4500
+b5    java          10 tina turner                    06-APR-21 10-JAN-21       4500
+b5    java          11 jody foster                    07-APR-21 10-JAN-21       4500
+b6    vbnet          1 george micheal                 10-JAN-21 10-JAN-21       4500
+b6    vbnet          2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b6    vbnet          3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b6    vbnet          4 malcom marshall                16-JAN-21 10-JAN-21       4500
+b6    vbnet          5 vivan richards                 16-JAN-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b6    vbnet          7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b6    vbnet          8 george micheal                 01-MAR-21 10-JAN-21       4500
+b6    vbnet          9 richard marx                   06-APR-21 10-JAN-21       4500
+b6    vbnet         10 tina turner                    06-APR-21 10-JAN-21       4500
+b6    vbnet         11 jody foster                    07-APR-21 10-JAN-21       4500
+b7    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b7    ora            2 micheal douglas                11-JAN-21 10-JAN-21       4500
+b7    ora            3 andy roberts                   11-JAN-21 10-JAN-21       4500
+b7    ora            4 malcom marshall                16-JAN-21 10-JAN-21       4500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            5 vivan richards                 16-JAN-21 10-JAN-21       4500
+b7    ora            6 chirs evert                    14-JAN-21 10-JAN-21       4500
+b7    ora            7 ivan lendal                    15-JAN-21 10-JAN-21       4500
+b7    ora            8 george micheal                 01-MAR-21 10-JAN-21       4500
+b7    ora            9 richard marx                   06-APR-21 10-JAN-21       4500
+b7    ora           10 tina turner                    06-APR-21 10-JAN-21       4500
+b7    ora           11 jody foster                    07-APR-21 10-JAN-21       4500
+b1    ora            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b1    ora            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b1    ora            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b1    ora            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b1    ora            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b1    ora            9 richard marx                   06-APR-21 11-JAN-21       3500
+b1    ora           10 tina turner                    06-APR-21 11-JAN-21       3500
+b1    ora           11 jody foster                    07-APR-21 11-JAN-21       3500
+b2    asp            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b2    asp            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b2    asp            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b2    asp            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b2    asp            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b2    asp            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b2    asp            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b2    asp            9 richard marx                   06-APR-21 11-JAN-21       3500
+b2    asp           10 tina turner                    06-APR-21 11-JAN-21       3500
+b2    asp           11 jody foster                    07-APR-21 11-JAN-21       3500
+b3    c              1 george micheal                 10-JAN-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b3    c              3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b3    c              4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b3    c              5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b3    c              6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b3    c              7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b3    c              8 george micheal                 01-MAR-21 11-JAN-21       3500
+b3    c              9 richard marx                   06-APR-21 11-JAN-21       3500
+b3    c             10 tina turner                    06-APR-21 11-JAN-21       3500
+b3    c             11 jody foster                    07-APR-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b4    xml            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b4    xml            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b4    xml            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b4    xml            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b4    xml            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b4    xml            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b4    xml            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b4    xml            9 richard marx                   06-APR-21 11-JAN-21       3500
+b4    xml           10 tina turner                    06-APR-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml           11 jody foster                    07-APR-21 11-JAN-21       3500
+b5    java           1 george micheal                 10-JAN-21 11-JAN-21       3500
+b5    java           2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b5    java           3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b5    java           4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b5    java           5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b5    java           6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b5    java           7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b5    java           8 george micheal                 01-MAR-21 11-JAN-21       3500
+b5    java           9 richard marx                   06-APR-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java          10 tina turner                    06-APR-21 11-JAN-21       3500
+b5    java          11 jody foster                    07-APR-21 11-JAN-21       3500
+b6    vbnet          1 george micheal                 10-JAN-21 11-JAN-21       3500
+b6    vbnet          2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b6    vbnet          3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b6    vbnet          4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b6    vbnet          5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b6    vbnet          6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b6    vbnet          7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+b6    vbnet          8 george micheal                 01-MAR-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          9 richard marx                   06-APR-21 11-JAN-21       3500
+b6    vbnet         10 tina turner                    06-APR-21 11-JAN-21       3500
+b6    vbnet         11 jody foster                    07-APR-21 11-JAN-21       3500
+b7    ora            1 george micheal                 10-JAN-21 11-JAN-21       3500
+b7    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b7    ora            3 andy roberts                   11-JAN-21 11-JAN-21       3500
+b7    ora            4 malcom marshall                16-JAN-21 11-JAN-21       3500
+b7    ora            5 vivan richards                 16-JAN-21 11-JAN-21       3500
+b7    ora            6 chirs evert                    14-JAN-21 11-JAN-21       3500
+b7    ora            7 ivan lendal                    15-JAN-21 11-JAN-21       3500
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            8 george micheal                 01-MAR-21 11-JAN-21       3500
+b7    ora            9 richard marx                   06-APR-21 11-JAN-21       3500
+b7    ora           10 tina turner                    06-APR-21 11-JAN-21       3500
+b7    ora           11 jody foster                    07-APR-21 11-JAN-21       3500
+b1    ora            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b1    ora            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b1    ora            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b1    ora            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b1    ora            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b1    ora            9 richard marx                   06-APR-21 17-JAN-21       1000
+b1    ora           10 tina turner                    06-APR-21 17-JAN-21       1000
+b1    ora           11 jody foster                    07-APR-21 17-JAN-21       1000
+b2    asp            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b2    asp            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b2    asp            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b2    asp            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b2    asp            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b2    asp            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b2    asp            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b2    asp            9 richard marx                   06-APR-21 17-JAN-21       1000
+b2    asp           10 tina turner                    06-APR-21 17-JAN-21       1000
+b2    asp           11 jody foster                    07-APR-21 17-JAN-21       1000
+b3    c              1 george micheal                 10-JAN-21 17-JAN-21       1000
+b3    c              2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b3    c              3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b3    c              4 malcom marshall                16-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b3    c              6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b3    c              7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b3    c              8 george micheal                 01-MAR-21 17-JAN-21       1000
+b3    c              9 richard marx                   06-APR-21 17-JAN-21       1000
+b3    c             10 tina turner                    06-APR-21 17-JAN-21       1000
+b3    c             11 jody foster                    07-APR-21 17-JAN-21       1000
+b4    xml            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b4    xml            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b4    xml            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b4    xml            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b4    xml            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b4    xml            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b4    xml            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b4    xml            9 richard marx                   06-APR-21 17-JAN-21       1000
+b4    xml           10 tina turner                    06-APR-21 17-JAN-21       1000
+b4    xml           11 jody foster                    07-APR-21 17-JAN-21       1000
+b5    java           1 george micheal                 10-JAN-21 17-JAN-21       1000
+b5    java           2 micheal douglas                11-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b5    java           4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b5    java           5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b5    java           6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b5    java           7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b5    java           8 george micheal                 01-MAR-21 17-JAN-21       1000
+b5    java           9 richard marx                   06-APR-21 17-JAN-21       1000
+b5    java          10 tina turner                    06-APR-21 17-JAN-21       1000
+b5    java          11 jody foster                    07-APR-21 17-JAN-21       1000
+b6    vbnet          1 george micheal                 10-JAN-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b6    vbnet          3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b6    vbnet          4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b6    vbnet          5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b6    vbnet          6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b6    vbnet          7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b6    vbnet          8 george micheal                 01-MAR-21 17-JAN-21       1000
+b6    vbnet          9 richard marx                   06-APR-21 17-JAN-21       1000
+b6    vbnet         10 tina turner                    06-APR-21 17-JAN-21       1000
+b6    vbnet         11 jody foster                    07-APR-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            1 george micheal                 10-JAN-21 17-JAN-21       1000
+b7    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b7    ora            3 andy roberts                   11-JAN-21 17-JAN-21       1000
+b7    ora            4 malcom marshall                16-JAN-21 17-JAN-21       1000
+b7    ora            5 vivan richards                 16-JAN-21 17-JAN-21       1000
+b7    ora            6 chirs evert                    14-JAN-21 17-JAN-21       1000
+b7    ora            7 ivan lendal                    15-JAN-21 17-JAN-21       1000
+b7    ora            8 george micheal                 01-MAR-21 17-JAN-21       1000
+b7    ora            9 richard marx                   06-APR-21 17-JAN-21       1000
+b7    ora           10 tina turner                    06-APR-21 17-JAN-21       1000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora           11 jody foster                    07-APR-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b1    ora            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b1    ora            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b1    ora            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b1    ora            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b1    ora            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b1    ora            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b1    ora            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b1    ora            9 richard marx                   06-APR-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora           10 tina turner                    06-APR-21 13-JAN-21       2000
+b1    ora           11 jody foster                    07-APR-21 13-JAN-21       2000
+b2    asp            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b2    asp            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b2    asp            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b2    asp            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b2    asp            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b2    asp            8 george micheal                 01-MAR-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            9 richard marx                   06-APR-21 13-JAN-21       2000
+b2    asp           10 tina turner                    06-APR-21 13-JAN-21       2000
+b2    asp           11 jody foster                    07-APR-21 13-JAN-21       2000
+b3    c              1 george micheal                 10-JAN-21 13-JAN-21       2000
+b3    c              2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b3    c              3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b3    c              4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b3    c              5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b3    c              6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b3    c              7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              8 george micheal                 01-MAR-21 13-JAN-21       2000
+b3    c              9 richard marx                   06-APR-21 13-JAN-21       2000
+b3    c             10 tina turner                    06-APR-21 13-JAN-21       2000
+b3    c             11 jody foster                    07-APR-21 13-JAN-21       2000
+b4    xml            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b4    xml            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b4    xml            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b4    xml            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b4    xml            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b4    xml            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b4    xml            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b4    xml            9 richard marx                   06-APR-21 13-JAN-21       2000
+b4    xml           10 tina turner                    06-APR-21 13-JAN-21       2000
+b4    xml           11 jody foster                    07-APR-21 13-JAN-21       2000
+b5    java           1 george micheal                 10-JAN-21 13-JAN-21       2000
+b5    java           2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b5    java           3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b5    java           4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b5    java           5 vivan richards                 16-JAN-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b5    java           7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b5    java           8 george micheal                 01-MAR-21 13-JAN-21       2000
+b5    java           9 richard marx                   06-APR-21 13-JAN-21       2000
+b5    java          10 tina turner                    06-APR-21 13-JAN-21       2000
+b5    java          11 jody foster                    07-APR-21 13-JAN-21       2000
+b6    vbnet          1 george micheal                 10-JAN-21 13-JAN-21       2000
+b6    vbnet          2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b6    vbnet          3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b6    vbnet          4 malcom marshall                16-JAN-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b6    vbnet          6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b6    vbnet          7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b6    vbnet          8 george micheal                 01-MAR-21 13-JAN-21       2000
+b6    vbnet          9 richard marx                   06-APR-21 13-JAN-21       2000
+b6    vbnet         10 tina turner                    06-APR-21 13-JAN-21       2000
+b6    vbnet         11 jody foster                    07-APR-21 13-JAN-21       2000
+b7    ora            1 george micheal                 10-JAN-21 13-JAN-21       2000
+b7    ora            2 micheal douglas                11-JAN-21 13-JAN-21       2000
+b7    ora            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            4 malcom marshall                16-JAN-21 13-JAN-21       2000
+b7    ora            5 vivan richards                 16-JAN-21 13-JAN-21       2000
+b7    ora            6 chirs evert                    14-JAN-21 13-JAN-21       2000
+b7    ora            7 ivan lendal                    15-JAN-21 13-JAN-21       2000
+b7    ora            8 george micheal                 01-MAR-21 13-JAN-21       2000
+b7    ora            9 richard marx                   06-APR-21 13-JAN-21       2000
+b7    ora           10 tina turner                    06-APR-21 13-JAN-21       2000
+b7    ora           11 jody foster                    07-APR-21 13-JAN-21       2000
+b1    ora            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b1    ora            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b1    ora            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b1    ora            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b1    ora            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b1    ora            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b1    ora            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b1    ora            9 richard marx                   06-APR-21 20-JAN-21       3000
+b1    ora           10 tina turner                    06-APR-21 20-JAN-21       3000
+b1    ora           11 jody foster                    07-APR-21 20-JAN-21       3000
+b2    asp            1 george micheal                 10-JAN-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b2    asp            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b2    asp            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b2    asp            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b2    asp            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b2    asp            9 richard marx                   06-APR-21 20-JAN-21       3000
+b2    asp           10 tina turner                    06-APR-21 20-JAN-21       3000
+b2    asp           11 jody foster                    07-APR-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              1 george micheal                 10-JAN-21 20-JAN-21       3000
+b3    c              2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b3    c              3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b3    c              4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b3    c              5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b3    c              6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b3    c              7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b3    c              8 george micheal                 01-MAR-21 20-JAN-21       3000
+b3    c              9 richard marx                   06-APR-21 20-JAN-21       3000
+b3    c             10 tina turner                    06-APR-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c             11 jody foster                    07-APR-21 20-JAN-21       3000
+b4    xml            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b4    xml            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b4    xml            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b4    xml            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b4    xml            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b4    xml            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b4    xml            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b4    xml            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b4    xml            9 richard marx                   06-APR-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml           10 tina turner                    06-APR-21 20-JAN-21       3000
+b4    xml           11 jody foster                    07-APR-21 20-JAN-21       3000
+b5    java           1 george micheal                 10-JAN-21 20-JAN-21       3000
+b5    java           2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b5    java           3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b5    java           4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b5    java           5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b5    java           6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b5    java           7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b5    java           8 george micheal                 01-MAR-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           9 richard marx                   06-APR-21 20-JAN-21       3000
+b5    java          10 tina turner                    06-APR-21 20-JAN-21       3000
+b5    java          11 jody foster                    07-APR-21 20-JAN-21       3000
+b6    vbnet          1 george micheal                 10-JAN-21 20-JAN-21       3000
+b6    vbnet          2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b6    vbnet          3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b6    vbnet          4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b6    vbnet          5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b6    vbnet          6 chirs evert                    14-JAN-21 20-JAN-21       3000
+b6    vbnet          7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          8 george micheal                 01-MAR-21 20-JAN-21       3000
+b6    vbnet          9 richard marx                   06-APR-21 20-JAN-21       3000
+b6    vbnet         10 tina turner                    06-APR-21 20-JAN-21       3000
+b6    vbnet         11 jody foster                    07-APR-21 20-JAN-21       3000
+b7    ora            1 george micheal                 10-JAN-21 20-JAN-21       3000
+b7    ora            2 micheal douglas                11-JAN-21 20-JAN-21       3000
+b7    ora            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b7    ora            4 malcom marshall                16-JAN-21 20-JAN-21       3000
+b7    ora            5 vivan richards                 16-JAN-21 20-JAN-21       3000
+b7    ora            6 chirs evert                    14-JAN-21 20-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            7 ivan lendal                    15-JAN-21 20-JAN-21       3000
+b7    ora            8 george micheal                 01-MAR-21 20-JAN-21       3000
+b7    ora            9 richard marx                   06-APR-21 20-JAN-21       3000
+b7    ora           10 tina turner                    06-APR-21 20-JAN-21       3000
+b7    ora           11 jody foster                    07-APR-21 20-JAN-21       3000
+b1    ora            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b1    ora            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b1    ora            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b1    ora            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b1    ora            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b1    ora            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b1    ora            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b1    ora            9 richard marx                   06-APR-21 16-JAN-21       3000
+b1    ora           10 tina turner                    06-APR-21 16-JAN-21       3000
+b1    ora           11 jody foster                    07-APR-21 16-JAN-21       3000
+b2    asp            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b2    asp            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b2    asp            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b2    asp            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b2    asp            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b2    asp            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b2    asp            9 richard marx                   06-APR-21 16-JAN-21       3000
+b2    asp           10 tina turner                    06-APR-21 16-JAN-21       3000
+b2    asp           11 jody foster                    07-APR-21 16-JAN-21       3000
+b3    c              1 george micheal                 10-JAN-21 16-JAN-21       3000
+b3    c              2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b3    c              3 andy roberts                   11-JAN-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b3    c              5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b3    c              6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b3    c              7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b3    c              8 george micheal                 01-MAR-21 16-JAN-21       3000
+b3    c              9 richard marx                   06-APR-21 16-JAN-21       3000
+b3    c             10 tina turner                    06-APR-21 16-JAN-21       3000
+b3    c             11 jody foster                    07-APR-21 16-JAN-21       3000
+b4    xml            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b4    xml            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b4    xml            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b4    xml            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b4    xml            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b4    xml            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b4    xml            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b4    xml            9 richard marx                   06-APR-21 16-JAN-21       3000
+b4    xml           10 tina turner                    06-APR-21 16-JAN-21       3000
+b4    xml           11 jody foster                    07-APR-21 16-JAN-21       3000
+b5    java           1 george micheal                 10-JAN-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b5    java           3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b5    java           4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b5    java           5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b5    java           6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b5    java           7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b5    java           8 george micheal                 01-MAR-21 16-JAN-21       3000
+b5    java           9 richard marx                   06-APR-21 16-JAN-21       3000
+b5    java          10 tina turner                    06-APR-21 16-JAN-21       3000
+b5    java          11 jody foster                    07-APR-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          1 george micheal                 10-JAN-21 16-JAN-21       3000
+b6    vbnet          2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b6    vbnet          3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b6    vbnet          4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b6    vbnet          5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b6    vbnet          6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b6    vbnet          7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b6    vbnet          8 george micheal                 01-MAR-21 16-JAN-21       3000
+b6    vbnet          9 richard marx                   06-APR-21 16-JAN-21       3000
+b6    vbnet         10 tina turner                    06-APR-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet         11 jody foster                    07-APR-21 16-JAN-21       3000
+b7    ora            1 george micheal                 10-JAN-21 16-JAN-21       3000
+b7    ora            2 micheal douglas                11-JAN-21 16-JAN-21       3000
+b7    ora            3 andy roberts                   11-JAN-21 16-JAN-21       3000
+b7    ora            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b7    ora            5 vivan richards                 16-JAN-21 16-JAN-21       3000
+b7    ora            6 chirs evert                    14-JAN-21 16-JAN-21       3000
+b7    ora            7 ivan lendal                    15-JAN-21 16-JAN-21       3000
+b7    ora            8 george micheal                 01-MAR-21 16-JAN-21       3000
+b7    ora            9 richard marx                   06-APR-21 16-JAN-21       3000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora           10 tina turner                    06-APR-21 16-JAN-21       3000
+b7    ora           11 jody foster                    07-APR-21 16-JAN-21       3000
+b1    ora            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b1    ora            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b1    ora            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b1    ora            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b1    ora            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b1    ora            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b1    ora            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b1    ora            8 george micheal                 01-MAR-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            9 richard marx                   06-APR-21 30-JAN-21       2000
+b1    ora           10 tina turner                    06-APR-21 30-JAN-21       2000
+b1    ora           11 jody foster                    07-APR-21 30-JAN-21       2000
+b2    asp            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b2    asp            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b2    asp            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b2    asp            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b2    asp            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b2    asp            9 richard marx                   06-APR-21 30-JAN-21       2000
+b2    asp           10 tina turner                    06-APR-21 30-JAN-21       2000
+b2    asp           11 jody foster                    07-APR-21 30-JAN-21       2000
+b3    c              1 george micheal                 10-JAN-21 30-JAN-21       2000
+b3    c              2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b3    c              3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b3    c              4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b3    c              5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b3    c              6 chirs evert                    14-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b3    c              7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b3    c              8 george micheal                 01-MAR-21 30-JAN-21       2000
+b3    c              9 richard marx                   06-APR-21 30-JAN-21       2000
+b3    c             10 tina turner                    06-APR-21 30-JAN-21       2000
+b3    c             11 jody foster                    07-APR-21 30-JAN-21       2000
+b4    xml            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b4    xml            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b4    xml            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b4    xml            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b4    xml            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b4    xml            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b4    xml            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b4    xml            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b4    xml            9 richard marx                   06-APR-21 30-JAN-21       2000
+b4    xml           10 tina turner                    06-APR-21 30-JAN-21       2000
+b4    xml           11 jody foster                    07-APR-21 30-JAN-21       2000
+b5    java           1 george micheal                 10-JAN-21 30-JAN-21       2000
+b5    java           2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b5    java           3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b5    java           4 malcom marshall                16-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b5    java           5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b5    java           6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b5    java           7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b5    java           8 george micheal                 01-MAR-21 30-JAN-21       2000
+b5    java           9 richard marx                   06-APR-21 30-JAN-21       2000
+b5    java          10 tina turner                    06-APR-21 30-JAN-21       2000
+b5    java          11 jody foster                    07-APR-21 30-JAN-21       2000
+b6    vbnet          1 george micheal                 10-JAN-21 30-JAN-21       2000
+b6    vbnet          2 micheal douglas                11-JAN-21 30-JAN-21       2000
+b6    vbnet          3 andy roberts                   11-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b6    vbnet          4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b6    vbnet          5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b6    vbnet          6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b6    vbnet          7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b6    vbnet          8 george micheal                 01-MAR-21 30-JAN-21       2000
+b6    vbnet          9 richard marx                   06-APR-21 30-JAN-21       2000
+b6    vbnet         10 tina turner                    06-APR-21 30-JAN-21       2000
+b6    vbnet         11 jody foster                    07-APR-21 30-JAN-21       2000
+b7    ora            1 george micheal                 10-JAN-21 30-JAN-21       2000
+b7    ora            2 micheal douglas                11-JAN-21 30-JAN-21       2000
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b7    ora            3 andy roberts                   11-JAN-21 30-JAN-21       2000
+b7    ora            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b7    ora            5 vivan richards                 16-JAN-21 30-JAN-21       2000
+b7    ora            6 chirs evert                    14-JAN-21 30-JAN-21       2000
+b7    ora            7 ivan lendal                    15-JAN-21 30-JAN-21       2000
+b7    ora            8 george micheal                 01-MAR-21 30-JAN-21       2000
+b7    ora            9 richard marx                   06-APR-21 30-JAN-21       2000
+b7    ora           10 tina turner                    06-APR-21 30-JAN-21       2000
+b7    ora           11 jody foster                    07-APR-21 30-JAN-21       2000
+
+539 rows selected.
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode ,b.code;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode ,b.code
+                                                                                                                 *
+ERROR at line 1:
+ORA-00904: "B"."CODE": invalid identifier
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode ,b.ccode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b,students s,payments p group by b.bcode ,b.ccode
+                       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode;
+select b.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode
+                       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode;
+select s.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno;
+
+
+                                                                                   payments report
+BCODE CCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ----- ---------- ------------------------------ --------- --------- ----------
+b1    ora            2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b1    ora            2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1    ora            1 george micheal                 10-JAN-21 10-JAN-21       4500
+b2    asp            4 malcom marshall                16-JAN-21 16-JAN-21       3000
+b2    asp            4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2    asp            3 andy roberts                   11-JAN-21 20-JAN-21       3000
+
+7 rows selected.
+
+SQL> select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno;
+
+
+                                                                                   payments report
+BCODE     ROLLNO NAME                           DJ        DP            AMOUNT
+----- ---------- ------------------------------ --------- --------- ----------
+b1             1 george micheal                 10-JAN-21 10-JAN-21       4500
+b1             2 micheal douglas                11-JAN-21 17-JAN-21       1000
+b1             2 micheal douglas                11-JAN-21 11-JAN-21       3500
+b2             3 andy roberts                   11-JAN-21 20-JAN-21       3000
+b2             3 andy roberts                   11-JAN-21 13-JAN-21       2000
+b2             4 malcom marshall                16-JAN-21 30-JAN-21       2000
+b2             4 malcom marshall                16-JAN-21 16-JAN-21       3000
+
+7 rows selected.
+
+SQL> select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode;
+select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by s.bcode;
+select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by s.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by s.bcode;
+select s.bcode,s.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by s.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by s.bcode;
+select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by s.bcode
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by p.bcode;
+select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by p.bcode
+                                                                                                                 *
+ERROR at line 1:
+ORA-00904: "P"."BCODE": invalid identifier
+
+
+SQL> select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by p.rollno;
+select s.bcode,p.rollno,s.name,s.dj,p.dp,p.amount from  students s join payments p on s.rollno=p.rollno group by p.rollno
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select * from students group by bcode;
+select * from students group by bcode
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select s.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount,sum(p.amount) from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode;
+select s.bcode,b.ccode,s.rollno,s.name,s.dj,p.dp,p.amount,sum(p.amount) from batches b join students s on b.bcode=s.bcode join payments p on s.rollno=p.rollno group by b.bcode,b.ccode
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select * from students order by bcode;
+
+
+                                                                                   payments report
+    ROLLNO BCODE NAME                           G DJ        PHONE      EMAIL
+---------- ----- ------------------------------ - --------- ---------- ------------------------------
+         1 b1    george micheal                 m 10-JAN-21 488333     gm@yahoo.com
+         2 b1    micheal douglas                m 11-JAN-21 348333     md@gmail.com
+         3 b2    andy roberts                   m 11-JAN-21 433554     ar@yahoo.com
+         4 b2    malcom marshall                m 16-JAN-21 653345     mm@usa.net
+         5 b2    vivan richards                 m 16-JAN-21 641238     vr@yahoo.com
+         6 b3    chirs evert                    f 14-JAN-21            ce@yahoo.com
+         7 b3    ivan lendal                    m 15-JAN-21 431212     il@gmail.com
+         8 b4    george micheal                 m 01-MAR-21 488333     gm@gmail.com
+         9 b5    richard marx                   m 06-APR-21 876567     rm@gmail.com
+        10 b5    tina turner                    f 06-APR-21 565678     tinat@gmail.com
+
+
+                                                                                   payments report
+    ROLLNO BCODE NAME                           G DJ        PHONE      EMAIL
+---------- ----- ------------------------------ - --------- ---------- ------------------------------
+        11 b5    jody foster                    f 07-APR-21 234344     jody@hotmail.com
+
+11 rows selected.
+
+SQL> compute sum of amount on rollno
+SQL> break on rollno
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> compute sum of amount on rollno report
+SQL> break on rollno
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> set pause on
+SQL> select * from payments order by rollno;
+
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> select feedback 5
+  2  ;
+select feedback 5
+                *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> set feedback 5
+SQL> select * from payments order by rollno;
+
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+
+                                                                                   payments report
+    ROLLNO DP            AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> set pause off
+SQL> column dp heading 'date of payment'
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> set feedback 2
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> set pause on
+SQL> select * from payments order by rollno;
+
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+sum                        5000
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL> set pause off
+SQL> compute sum of amount on rollno report
+SQL> break on rollno skip1
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> compute sum label 'grandtotal' of amount on rollno report
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+grandtotal                 4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+grandtotal                 4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+grandtotal                 5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+grandtotal                 5000
+
+
+7 rows selected.
+
+SQL> compute sum of sum(amount) on rollno report
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+grandtotal                 4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+grandtotal                 4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+grandtotal                 5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+grandtotal                 5000
+
+
+7 rows selected.
+
+SQL> compute sum label 'grandtotal' of amount on rollno report
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+grandtotal                 4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+grandtotal                 4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+grandtotal                 5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+grandtotal                 5000
+
+
+7 rows selected.
+
+SQL> compute sum of amount on rollno report
+SQL> break on rollno skip1
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> compute sum of sum(amount) on rollno report
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> set wrap on
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> set wrap off
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> set wrap on
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+         3 13-JAN-21       2000
+
+
+                                                                                   payments report
+    ROLLNO date of p     AMOUNT
+---------- --------- ----------
+         3 20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+
+7 rows selected.
+
+SQL> column dp heading 'date of | payment'
+SQL> select * from payments order by rollno;
+
+
+                                                                                   payments report
+           date of
+    ROLLNO  payment      AMOUNT
+---------- --------- ----------
+         1 10-JAN-21       4500
+**********           ----------
+sum                        4500
+
+         2 11-JAN-21       3500
+           17-JAN-21       1000
+**********           ----------
+sum                        4500
+
+
+
+                                                                                   payments report
+           date of
+    ROLLNO  payment      AMOUNT
+---------- --------- ----------
+         3 13-JAN-21       2000
+           20-JAN-21       3000
+**********           ----------
+sum                        5000
+
+         4 16-JAN-21       3000
+           30-JAN-21       2000
+**********           ----------
+sum                        5000
+
+7 rows selected.
+
+SQL>
